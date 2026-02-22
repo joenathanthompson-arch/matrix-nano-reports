@@ -1,0 +1,41 @@
+{
+  "date": "2026-02-22",
+  "generated_at": "2026-02-22T12:30:00Z",
+  "methodology_version": "1.0_NANO",
+  "overall": {
+    "score": 2,
+    "signal": "SLIGHT_BULLISH",
+    "confidence": 6,
+    "reason": "Risk-on VIX low Fed dovish"
+  },
+  "asset_classes": {
+    "INDICES": {
+      "score": 3,
+      "signal": "BULLISH",
+      "confidence": 7,
+      "reason": "Tech earnings strong economic data supportive"
+    },
+    "COMMODITIES": {
+      "score": 4,
+      "signal": "BULLISH",
+      "confidence": 7,
+      "reason": "Weak USD supply constraints gold bid"
+    },
+    "FX": {
+      "score": 0,
+      "signal": "NEUTRAL",
+      "confidence": 5,
+      "reason": "Mixed central bank signals wait for data"
+    }
+  },
+  "key_drivers": [
+    "Fed maintaining dovish stance",
+    "USD weakness supporting commodities",
+    "Credit spreads stable"
+  ],
+  "data_quality": {
+    "stale_sources": [],
+    "fallbacks_used": [],
+    "notes": ""
+  }
+}
