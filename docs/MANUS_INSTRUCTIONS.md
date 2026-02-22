@@ -1,14 +1,14 @@
 # Manus AI Bias Report Format Specification - Matrix Nano
 
 **Last Updated:** February 22, 2026
-**Version:** 1.0
+**Version:** 2.0
 
 ## Overview
 
-Matrix Nano is a **simplified** version of Matrix Futures. Instead of scoring 10 individual symbols, Manus provides:
+Matrix Nano is a **simplified** version of Matrix Futures. Instead of scoring individual symbols, Manus provides:
 
 1. **Overall Market Bias** - General risk-on/risk-off sentiment
-2. **Asset Class Biases** - INDICES, COMMODITIES, FX
+2. **8 Asset Class Biases** - Granular coverage across all major futures markets
 
 The Matrix Nano EA then combines your macro bias with real-time technical indicators:
 - **ALMA** (Arnaud Legoux Moving Average) - Trend direction
@@ -21,6 +21,21 @@ Symbol Bias = (Overall x 0.25) + (Asset Class x 0.35) + (ALMA x 0.25) + (MACD x 
 ```
 
 This means your macro assessment accounts for 60% of the final bias, while technicals provide 40%.
+
+---
+
+## The 8 Asset Classes
+
+| Asset Class | ID | Key Symbols | Description |
+|-------------|-----|-------------|-------------|
+| Equity Index Futures | `EQUITY_INDEX` | ES, NQ, YM, RTY, MES, MNQ | Stock market indices |
+| Interest Rate/Fixed Income | `FIXED_INCOME` | ZB, ZN, ZT, ZF, GE, SR3 | Government debt instruments |
+| Energy Futures | `ENERGY` | CL, NG, RB, HO, MCL, QG | Oil, gas, refined products |
+| Metal Futures | `METALS` | GC, SI, HG, PL, PA, MGC | Precious & industrial metals |
+| Agricultural Futures | `AGRICULTURE` | ZC, ZS, ZW, KC, SB, CC, LE, HE | Grains, softs, livestock |
+| Currency Futures | `FX` | 6E, 6J, 6A, 6B, 6C, 6S, M6E | Foreign exchange |
+| Cryptocurrency Futures | `CRYPTO` | BTC, ETH, MBT | Digital assets |
+| Volatility Index Futures | `VOLATILITY` | VX, VXM | VIX-based contracts |
 
 ---
 
@@ -50,7 +65,7 @@ matrix-nano-reports/
 {
   "date": "2026-02-22",
   "generated_at": "2026-02-22T07:30:00Z",
-  "methodology_version": "1.0_NANO",
+  "methodology_version": "2.0_NANO",
   "overall": {
     "score": 2,
     "signal": "SLIGHT_BULLISH",
@@ -58,23 +73,53 @@ matrix-nano-reports/
     "reason": "Risk-on sentiment with low VIX and dovish Fed"
   },
   "asset_classes": {
-    "INDICES": {
+    "EQUITY_INDEX": {
       "score": 3,
       "signal": "BULLISH",
       "confidence": 7,
       "reason": "Tech earnings strong, credit spreads narrowing"
     },
-    "COMMODITIES": {
+    "FIXED_INCOME": {
+      "score": -2,
+      "signal": "SLIGHT_BEARISH",
+      "confidence": 6,
+      "reason": "Fed dovish but inflation sticky, curve steepening"
+    },
+    "ENERGY": {
+      "score": 2,
+      "signal": "SLIGHT_BULLISH",
+      "confidence": 5,
+      "reason": "Supply constraints, weak USD, demand stable"
+    },
+    "METALS": {
       "score": 4,
       "signal": "BULLISH",
       "confidence": 7,
-      "reason": "Weak USD, supply constraints, gold bid on rate outlook"
+      "reason": "Falling real yields, weak USD, safe-haven bid"
+    },
+    "AGRICULTURE": {
+      "score": 1,
+      "signal": "SLIGHT_BULLISH",
+      "confidence": 5,
+      "reason": "Weather concerns, weak USD support"
     },
     "FX": {
       "score": 0,
       "signal": "NEUTRAL",
       "confidence": 5,
       "reason": "Mixed central bank signals, wait for clarity"
+    },
+    "CRYPTO": {
+      "score": 3,
+      "signal": "BULLISH",
+      "confidence": 6,
+      "reason": "Risk-on sentiment, ETF inflows, halving anticipation"
+    },
+    "VOLATILITY": {
+      "score": -1,
+      "signal": "SLIGHT_BEARISH",
+      "confidence": 6,
+      "reason": "VIX subdued, low vol regime, sell premium environment"
     }
   },
   "key_drivers": [
@@ -96,13 +141,13 @@ matrix-nano-reports/
 |-------|------|----------|-------|
 | `date` | string | YES | YYYY-MM-DD |
 | `generated_at` | string | YES | ISO 8601 UTC (ends with Z) |
-| `methodology_version` | string | YES | "1.0_NANO" |
+| `methodology_version` | string | YES | "2.0_NANO" |
 | `overall` | object | YES | Overall market bias |
 | `overall.score` | integer | YES | -10 to +10 (INTEGER) |
 | `overall.signal` | string | YES | See signal mapping |
 | `overall.confidence` | integer | YES | 1-10 |
 | `overall.reason` | string | YES | Brief explanation |
-| `asset_classes` | object | YES | Contains INDICES, COMMODITIES, FX |
+| `asset_classes` | object | YES | Contains all 8 asset classes |
 | `asset_classes.[CLASS].score` | integer | YES | -10 to +10 |
 | `asset_classes.[CLASS].signal` | string | YES | See signal mapping |
 | `asset_classes.[CLASS].confidence` | integer | YES | 1-10 |
@@ -122,17 +167,15 @@ matrix-nano-reports/
 | -4 to -6 | `BEARISH` |
 | -7 to -10 | `STRONG_BEARISH` |
 
-### Required Asset Classes
+### Required Asset Class IDs (All 8 Required)
 
-| Asset Class | Symbols It Affects |
-|-------------|-------------------|
-| `INDICES` | ES, NQ, YM, RTY |
-| `COMMODITIES` | GC, SI, CL |
-| `FX` | 6E, 6A, 6J, M6E |
+```
+EQUITY_INDEX, FIXED_INCOME, ENERGY, METALS, AGRICULTURE, FX, CRYPTO, VOLATILITY
+```
 
 ---
 
-## 2. Scoring Methodology
+## 2. Scoring Methodology by Asset Class
 
 ### Overall Market Bias
 
@@ -146,42 +189,136 @@ Assess the general risk appetite in markets:
 | Growth Outlook | Slowing (-1) | Stable (0) | Accelerating (+1) |
 | Risk Sentiment | Risk-off (-1) | Mixed (0) | Risk-on (+1) |
 
-Sum the factors to get Overall score (-10 to +10).
+---
 
-### INDICES Bias
+### EQUITY_INDEX Bias
 
-| Factor | Impact |
-|--------|--------|
-| Real Yields | Falling (+2), Rising (-2) |
-| Credit Conditions | Narrowing (+1), Widening (-1) |
-| Earnings Outlook | Strong (+1), Weak (-1) |
-| VIX Direction | Falling (+1), Rising (-1) |
-| Growth | Accelerating (+1), Slowing (-1) |
+**Symbols:** ES, NQ, YM, RTY, MES, MNQ, MYM, M2K
 
-### COMMODITIES Bias
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| Fed Stance | 1x | FedWatch | Dovish (+), Hawkish (-) |
+| Real Yields | 2x | DFII10 | Falling (+), Rising (-) |
+| Credit Spreads | 1x | HY OAS | Narrowing (+), Widening (-) |
+| VIX Direction | 1x | CBOE | Falling (+), Rising (-) |
+| Earnings | 1x | News | Beats (+), Misses (-) |
+| Growth | 1x | GDPNow | Stable/Up (+), Slowing (-) |
 
-| Factor | Impact |
-|--------|--------|
-| USD Direction | Weak (+2), Strong (-2) |
-| Real Yields | Falling (+2), Rising (-2) - especially for metals |
-| Supply Factors | Tight (+1), Loose (-1) |
-| Geopolitical Risk | Rising (+1), Easing (-1) |
-| China Demand | Strong (+1), Weak (-1) |
+---
+
+### FIXED_INCOME Bias
+
+**Symbols:** ZB (30Y Bond), ZN (10Y Note), ZT (2Y Note), ZF (5Y Note), GE (Eurodollar), SR3 (SOFR)
+
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| Fed Policy | 2x | FedWatch/FOMC | Dovish (+), Hawkish (-) |
+| Inflation Expectations | 2x | TIPS Breakevens | Falling (+), Rising (-) |
+| Fiscal/Supply | 1x | Treasury Auctions | Light (+), Heavy (-) |
+| Curve Shape | 1x | 2s10s | Flattening (+), Steepening (-) |
+| Risk Sentiment | 1x | VIX | Risk-off (+), Risk-on (-) |
+
+**Note:** Bullish FIXED_INCOME = Bond prices UP = Yields DOWN
+
+---
+
+### ENERGY Bias
+
+**Symbols:** CL (WTI Crude), NG (Natural Gas), RB (RBOB Gasoline), HO (Heating Oil), MCL, QG
+
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| OPEC Policy | 2x | OPEC News | Cuts (+), Increases (-) |
+| Inventories | 2x | EIA Weekly | Draws (+), Builds (-) |
+| USD Direction | 1x | DXY | Weak (+), Strong (-) |
+| Geopolitical | 1x | News | Risk (+), Calm (-) |
+| Global Demand | 1x | China PMI | Strong (+), Weak (-) |
+
+---
+
+### METALS Bias
+
+**Symbols:** GC (Gold), SI (Silver), HG (Copper), PL (Platinum), PA (Palladium), MGC, SIL
+
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| Real Yields | 2x | DFII10 | Falling (+), Rising (-) |
+| USD Direction | 2x | DXY | Weak (+), Strong (-) |
+| Risk Sentiment | 1x | VIX | Risk-off (+Gold), Risk-on (+Copper) |
+| China Demand | 1x | China PMI | Strong (+), Weak (-) |
+| ETF Flows | 1x | GLD Holdings | Inflows (+), Outflows (-) |
+
+**Note:** Precious metals (GC, SI) favor risk-off. Industrial metals (HG) favor risk-on.
+
+---
+
+### AGRICULTURE Bias
+
+**Symbols:** ZC (Corn), ZS (Soybeans), ZW (Wheat), ZM (Soybean Meal), ZL (Soybean Oil), KC (Coffee), SB (Sugar), CC (Cocoa), CT (Cotton), LE (Live Cattle), HE (Lean Hogs), GF (Feeder Cattle)
+
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| Weather | 2x | NOAA/USDA | Adverse (+), Favorable (-) |
+| USD Direction | 1x | DXY | Weak (+), Strong (-) |
+| Global Demand | 1x | WASDE | Strong (+), Weak (-) |
+| Inventory Levels | 1x | USDA | Low (+), High (-) |
+| Growing Season | 1x | Seasonal | Planting uncertainty (+) |
+
+**Key Reports:** USDA WASDE (monthly), Crop Progress (weekly), Export Sales (weekly)
+
+---
 
 ### FX Bias
 
-| Factor | Impact |
-|--------|--------|
-| Rate Differentials | Widening vs USD (+1), Narrowing (-1) |
-| Central Bank Divergence | Hawkish foreign CB (+1), Dovish (-1) |
-| Risk Sentiment | Risk-on helps AUD (+1), Risk-off helps JPY |
-| USD Trend | Weak USD (+1), Strong USD (-1) |
+**Symbols:** 6E (EUR), 6J (JPY), 6A (AUD), 6B (GBP), 6C (CAD), 6S (CHF), 6N (NZD), M6E, M6A
+
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| Fed vs Foreign CB | 2x | Central Banks | Foreign hawkish (+), Fed hawkish (-) |
+| Rate Differentials | 2x | FRED/CBs | Widening vs USD (+), Narrowing (-) |
+| Risk Sentiment | 1x | VIX | Risk-on (+AUD, +NZD), Risk-off (+JPY, +CHF) |
+| USD Trend | 1x | DXY | Weak USD (+), Strong USD (-) |
 
 **FX Notes:**
-- 6E (Euro): Bullish = EUR up = USD down
-- 6A (AUD): Bullish = AUD up = risk-on currency
-- 6J (JPY): Bullish = JPY up = safe-haven bid (INVERTED quotes)
-- M6E: Same as 6E
+- 6E: Bullish = EUR up = USD down
+- 6J: Bullish = JPY up = USD/JPY DOWN (inverted!)
+- 6A: Risk currency, tracks China/commodities
+- 6B: Brexit/BoE sensitive
+- 6C: Oil-linked (CAD correlates with crude)
+
+---
+
+### CRYPTO Bias
+
+**Symbols:** BTC (Bitcoin), ETH (Ethereum), MBT (Micro Bitcoin)
+
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| Risk Sentiment | 2x | VIX/Equities | Risk-on (+), Risk-off (-) |
+| ETF Flows | 2x | Coinglass | Inflows (+), Outflows (-) |
+| Regulatory News | 1x | Headlines | Positive (+), Negative (-) |
+| On-chain Metrics | 1x | Glassnode | Accumulation (+), Distribution (-) |
+| Halving Cycle | 1x | BTC Supply | Pre-halving (+), Post-halving mixed |
+
+**Note:** Crypto is highly correlated to NQ/risk assets. Size appropriately for volatility.
+
+---
+
+### VOLATILITY Bias
+
+**Symbols:** VX (VIX Futures), VXM (Micro VIX)
+
+| Factor | Weight | Source | Impact |
+|--------|--------|--------|--------|
+| VIX Spot Level | 2x | CBOE | High (+), Low (-) |
+| Term Structure | 2x | VIX Curve | Backwardation (+), Contango (-) |
+| Event Calendar | 1x | Econ Calendar | Heavy (+), Light (-) |
+| Realized Vol | 1x | SPX | Rising (+), Falling (-) |
+
+**IMPORTANT - VOLATILITY BIAS INTERPRETATION:**
+- **Bullish VOLATILITY** = Expect VIX to RISE = Long VX
+- **Bearish VOLATILITY** = Expect VIX to FALL = Short VX / sell premium
+- In calm markets, VOLATILITY bias is typically bearish (contango decay)
 
 ---
 
@@ -194,7 +331,7 @@ Rate confidence 1-10 based on:
 | 8-10 | High conviction, fresh data, clear signals |
 | 6-7 | Moderate conviction, some uncertainty |
 | 4-5 | Low conviction, conflicting signals |
-| 1-3 | Very uncertain, consider NO_TRADE |
+| 1-3 | Very uncertain, consider reduced sizing |
 
 **Confidence affects position sizing:**
 - Confidence 1 = 0.5x size
@@ -203,7 +340,70 @@ Rate confidence 1-10 based on:
 
 ---
 
-## 4. Executive Summary Format
+## 4. Data Sources Reference
+
+### Fed & Rates
+| Data | Primary | Fallback |
+|------|---------|----------|
+| FedWatch | cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html | - |
+| Real Yields (DFII10) | fred.stlouisfed.org/series/DFII10 | cnbc.com/quotes/US10YTIP |
+| 2s10s Curve | fred.stlouisfed.org/series/T10Y2Y | cnbc.com/quotes/10Y2YS |
+| HY OAS | fred.stlouisfed.org/series/BAMLH0A0HYM2 | tradingeconomics.com |
+
+### Volatility & Risk
+| Data | Source |
+|------|--------|
+| VIX | cboe.com/tradable-products/vix/ |
+| MOVE | tradingview.com/symbols/TVC-MOVE/ |
+| VIX Term Structure | vixcentral.com |
+
+### Growth & Economic
+| Data | Source |
+|------|--------|
+| GDPNow | atlantafed.org/cqer/research/gdpnow |
+| ISM PMI | ismworld.org |
+| Economic Calendar | forexfactory.com/calendar |
+
+### Energy
+| Data | Source |
+|------|--------|
+| EIA Weekly Petroleum | eia.gov/petroleum/supply/weekly/ |
+| OPEC Reports | opec.org |
+| Natural Gas Storage | eia.gov/naturalgas/storage/ |
+
+### Metals
+| Data | Source |
+|------|--------|
+| Gold ETF Holdings | gold.org/goldhub/data/gold-etfs-holdings-and-flows |
+| Copper | investing.com/commodities/copper |
+| China PMI | tradingeconomics.com/china/manufacturing-pmi |
+
+### Agriculture
+| Data | Source |
+|------|--------|
+| USDA WASDE | usda.gov/oce/commodity/wasde |
+| Crop Progress | usda.gov/nass/publications/crop-progress |
+| Weather | noaa.gov |
+
+### FX & Central Banks
+| Data | Source |
+|------|--------|
+| DXY | tradingview.com/symbols/TVC-DXY/ |
+| ECB | ecb.europa.eu |
+| BoJ | boj.or.jp/en/ |
+| BoE | bankofengland.co.uk |
+| RBA | rba.gov.au |
+
+### Crypto
+| Data | Source |
+|------|--------|
+| BTC ETF Flows | coinglass.com/bitcoin-etf |
+| On-chain Metrics | glassnode.com |
+| Fear & Greed | alternative.me/crypto/fear-and-greed-index/ |
+
+---
+
+## 5. Executive Summary Format
 
 **Path:** `data/executive_summaries/latest.md`
 
@@ -213,10 +413,10 @@ Rate confidence 1-10 based on:
 
 ---
 
-## Overall Market Bias: SLIGHT_BULLISH (+2)
-**Confidence:** 6/10
+## Overall Market Bias: [SIGNAL] ([SCORE])
+**Confidence:** X/10
 
-Risk-on sentiment prevails with VIX at low levels and the Fed maintaining a dovish stance. Credit spreads remain stable with no stress signals.
+[2-3 sentence summary]
 
 ---
 
@@ -224,50 +424,50 @@ Risk-on sentiment prevails with VIX at low levels and the Fed maintaining a dovi
 
 | Asset Class | Score | Signal | Confidence |
 |-------------|-------|--------|------------|
-| INDICES | +3 | BULLISH | 7/10 |
-| COMMODITIES | +4 | BULLISH | 7/10 |
-| FX | 0 | NEUTRAL | 5/10 |
+| EQUITY_INDEX | +X | SIGNAL | X/10 |
+| FIXED_INCOME | +X | SIGNAL | X/10 |
+| ENERGY | +X | SIGNAL | X/10 |
+| METALS | +X | SIGNAL | X/10 |
+| AGRICULTURE | +X | SIGNAL | X/10 |
+| FX | +X | SIGNAL | X/10 |
+| CRYPTO | +X | SIGNAL | X/10 |
+| VOLATILITY | +X | SIGNAL | X/10 |
 
 ---
 
-## INDICES: +3 BULLISH (7/10)
+## Detailed Asset Class Analysis
 
-Strong tech earnings continue to support equity indices. Credit spreads are narrowing, indicating healthy risk appetite. Real yields remain contained, providing tailwinds for growth stocks. The setup favors IB_BREAKOUT strategies on long signals.
+### EQUITY_INDEX: +X SIGNAL (X/10)
+**Symbols:** ES, NQ, YM, RTY, MES, MNQ, MYM, M2K
 
-## COMMODITIES: +4 BULLISH (7/10)
+[2-3 sentence analysis]
 
-Weak USD is the primary driver for commodities. Gold benefits from falling real yields and safe-haven flows amid geopolitical uncertainty. Energy markets remain supported by supply constraints. Silver follows gold with added industrial demand component.
-
-## FX: NEUTRAL (5/10)
-
-Central bank divergence is unclear. Fed is dovish but ECB and BoJ are sending mixed signals. Wait for clearer direction before establishing directional FX bias. Consider RANGE_TRADE approaches.
+[Repeat for all 8 asset classes]
 
 ---
 
 ## Key Macro Themes
 
-1. **Fed Dovish Stance:** March cut probability rising, supports risk assets
-2. **USD Weakness:** Benefits commodities and foreign currencies
-3. **Credit Stability:** No stress signals, supports equity markets
+1. **[Theme 1]**: [Explanation]
+2. **[Theme 2]**: [Explanation]
+3. **[Theme 3]**: [Explanation]
 
 ---
 
 ## Upcoming Catalysts
 
 ### Imminent (< 1 Week)
-- FOMC Minutes (Wed)
-- Core PCE (Fri)
+- [Event] (Date)
 
 ### Near-Term (1-4 Weeks)
-- NFP Report (Mar 7)
-- CPI (Mar 12)
+- [Event] (Date)
 
 ---
 
 ## Data Quality
-- All data sources current as of February 22, 2026
-- No stale data used
-- Average confidence: 6.3/10
+- All data sources current as of [Date]
+- Stale sources: [list or "None"]
+- Average confidence: X.X/10
 
 ---
 **End of Report**
@@ -275,7 +475,7 @@ Central bank divergence is unclear. Fed is dovish but ECB and BoJ are sending mi
 
 ---
 
-## 5. CRITICAL Rules
+## 6. CRITICAL Rules
 
 1. **ALWAYS create both:**
    - `data/bias_scores/latest.json` <- EA reads this!
@@ -291,36 +491,26 @@ Central bank divergence is unclear. Fed is dovish but ECB and BoJ are sending mi
    - Score = direction/magnitude (-10 to +10)
    - Confidence = certainty of assessment (1-10)
 
-5. **All 3 asset classes required** - INDICES, COMMODITIES, FX
+5. **All 8 asset classes required** - No partial updates
 
 6. **Signal strings must match exactly** - EA parses these
 
 ---
 
-## 6. Common Mistakes to Avoid
+## 7. Symbol Mapping Reference
 
-| Wrong | Correct |
-|-------|---------|
-| Per-symbol scores like Matrix Futures | Overall + 3 Asset Classes only |
-| Score as float (5.0) | Score as integer (5) |
-| Missing asset classes | All 3 required: INDICES, COMMODITIES, FX |
-| Old CSV format | Use JSON format |
-| Forgetting `latest.json` | ALWAYS copy to `latest.json` |
+When the EA loads bias for a symbol, it maps to asset class:
 
----
-
-## 7. Verification Checklist
-
-Before committing, verify:
-
-- [ ] `data/bias_scores/latest.json` exists and is valid JSON
-- [ ] JSON has `overall` with score, signal, confidence, reason
-- [ ] JSON has all 3 asset classes (INDICES, COMMODITIES, FX)
-- [ ] All scores are integers (-10 to +10)
-- [ ] Signal strings match exactly (STRONG_BULLISH, BULLISH, etc.)
-- [ ] `data/executive_summaries/latest.md` exists
-- [ ] Timestamped copies created for both files
-- [ ] `key_drivers` array has 3-5 items
+| Symbol Pattern | Asset Class |
+|----------------|-------------|
+| ES, NQ, YM, RTY, MES, MNQ, MYM, M2K | EQUITY_INDEX |
+| ZB, ZN, ZT, ZF, GE, SR3 | FIXED_INCOME |
+| CL, NG, RB, HO, MCL, QG | ENERGY |
+| GC, SI, HG, PL, PA, MGC, SIL | METALS |
+| ZC, ZS, ZW, ZM, ZL, KC, SB, CC, CT, LE, HE, GF | AGRICULTURE |
+| 6E, 6J, 6A, 6B, 6C, 6S, 6N, M6E, M6A | FX |
+| BTC, ETH, MBT | CRYPTO |
+| VX, VXM | VOLATILITY |
 
 ---
 
@@ -338,7 +528,8 @@ Before committing, verify:
    Verify:
    - Valid JSON (no parse errors)
    - Contains `overall` object with score, signal, confidence
-   - Contains `asset_classes` object with INDICES, COMMODITIES, FX
+   - Contains `asset_classes` object with all 8 classes
+   - Each class has score, signal, confidence, reason
    - `date` matches today's date
    - `generated_at` matches your output time
 
@@ -347,63 +538,16 @@ Before committing, verify:
    Fetch: https://raw.githubusercontent.com/joenathanthompson-arch/matrix-nano-reports/main/data/executive_summaries/latest.md
    ```
 
-   Verify:
-   - File exists and is not empty
-   - Contains proper markdown formatting
-   - Date in header matches today
-
-### If Verification Fails:
-1. DO NOT report success
-2. Fix the format issues
-3. Commit corrected files
-4. Re-run verification
-5. Only report success after verification passes
+3. **If verification fails:** Re-commit and push, then verify again.
 
 ---
 
-## 9. Data Sources Reference
-
-### Fed & Rates
-- FedWatch: https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html
-- FRED DFII10: https://fred.stlouisfed.org/series/DFII10
-- CNBC 10Y TIPS: https://www.cnbc.com/quotes/US10YTIP
-
-### Credit & Volatility
-- FRED HY OAS: https://fred.stlouisfed.org/series/BAMLH0A0HYM2
-- VIX: https://www.cboe.com/tradable-products/vix/
-
-### Growth & Economic
-- GDPNow: https://www.atlantafed.org/cqer/research/gdpnow
-- FRED 2s10s: https://fred.stlouisfed.org/series/T10Y2Y
-
-### Currency
-- DXY: https://www.tradingview.com/symbols/TVC-DXY/
-- ECB: https://www.ecb.europa.eu/press/pr/date/html/index.en.html
-- BoJ: https://www.boj.or.jp/en/mopo/index.htm
-
----
-
-## 10. URLs Reference
-
-| Purpose | URL |
-|---------|-----|
-| Bias JSON (EA reads) | `https://raw.githubusercontent.com/joenathanthompson-arch/matrix-nano-reports/main/data/bias_scores/latest.json` |
-| Executive Summary | `https://raw.githubusercontent.com/joenathanthompson-arch/matrix-nano-reports/main/data/executive_summaries/latest.md` |
-| Repository | `https://github.com/joenathanthompson-arch/matrix-nano-reports` |
-
----
-
-## 11. Difference from Matrix Futures
+## 9. Difference from Matrix Futures
 
 | Aspect | Matrix Futures | Matrix Nano |
 |--------|---------------|-------------|
 | Symbols Scored | 10 individual | 0 (asset class level) |
-| Output Structure | Per-symbol scores | Overall + 3 Asset Classes |
-| Strategy Recs | Per-symbol in JSON | None (EA decides) |
+| Asset Classes | 3 | 8 (more granular) |
+| Output Structure | Per-symbol with strategy | Overall + 8 Asset Classes |
 | Technical Integration | PM combines separately | EA combines ALMA + MACD |
-| Complexity | High | Simplified |
-
-Matrix Nano is designed to be a lighter-weight system where:
-- Manus provides high-level macro direction
-- The EA handles per-symbol calculations using technical indicators
-- Less data for Manus to produce, faster updates possible
+| Markets Covered | Limited futures | All major futures |

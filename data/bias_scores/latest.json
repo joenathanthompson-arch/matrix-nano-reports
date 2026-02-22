@@ -1,7 +1,7 @@
 {
   "date": "2026-02-22",
   "generated_at": "2026-02-22T12:30:00Z",
-  "methodology_version": "1.0_NANO",
+  "methodology_version": "2.0_NANO",
   "overall": {
     "score": 2,
     "signal": "SLIGHT_BULLISH",
@@ -9,29 +9,59 @@
     "reason": "Risk-on VIX low Fed dovish"
   },
   "asset_classes": {
-    "INDICES": {
+    "EQUITY_INDEX": {
       "score": 3,
       "signal": "BULLISH",
       "confidence": 7,
-      "reason": "Tech earnings strong economic data supportive"
+      "reason": "Tech earnings strong, credit spreads narrowing"
     },
-    "COMMODITIES": {
+    "FIXED_INCOME": {
+      "score": -2,
+      "signal": "SLIGHT_BEARISH",
+      "confidence": 6,
+      "reason": "Fed dovish but inflation sticky, curve steepening"
+    },
+    "ENERGY": {
+      "score": 2,
+      "signal": "SLIGHT_BULLISH",
+      "confidence": 5,
+      "reason": "Supply constraints, weak USD, demand stable"
+    },
+    "METALS": {
       "score": 4,
       "signal": "BULLISH",
       "confidence": 7,
-      "reason": "Weak USD supply constraints gold bid"
+      "reason": "Falling real yields, weak USD, safe-haven bid"
+    },
+    "AGRICULTURE": {
+      "score": 1,
+      "signal": "SLIGHT_BULLISH",
+      "confidence": 5,
+      "reason": "Weather concerns, weak USD support"
     },
     "FX": {
       "score": 0,
       "signal": "NEUTRAL",
       "confidence": 5,
-      "reason": "Mixed central bank signals wait for data"
+      "reason": "Mixed central bank signals, wait for clarity"
+    },
+    "CRYPTO": {
+      "score": 3,
+      "signal": "BULLISH",
+      "confidence": 6,
+      "reason": "Risk-on sentiment, ETF inflows, halving anticipation"
+    },
+    "VOLATILITY": {
+      "score": -1,
+      "signal": "SLIGHT_BEARISH",
+      "confidence": 6,
+      "reason": "VIX subdued, low vol regime, sell premium environment"
     }
   },
   "key_drivers": [
-    "Fed maintaining dovish stance",
-    "USD weakness supporting commodities",
-    "Credit spreads stable"
+    "Fed maintaining dovish stance, March cut probability rising",
+    "USD weakness supporting commodities and risk assets",
+    "Credit spreads stable, no stress signals"
   ],
   "data_quality": {
     "stale_sources": [],
