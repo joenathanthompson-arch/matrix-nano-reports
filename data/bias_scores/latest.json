@@ -1,60 +1,51 @@
 {
   "date": "2026-02-22",
   "generated_at": "2026-02-22T12:30:00Z",
-  "methodology_version": "2.0_NANO",
+  "methodology_version": "2.1_NANO",
   "overall": {
-    "score": 2,
-    "signal": "SLIGHT_BULLISH",
-    "confidence": 6,
-    "reason": "Risk-on VIX low Fed dovish"
+    "intraday": {"score": 2, "signal": "SLIGHT_BULLISH", "confidence": 6},
+    "swing": {"score": 4, "signal": "BULLISH", "confidence": 7},
+    "reason": "Risk-on sentiment, VIX low, Fed dovish - swing more bullish on multi-day trend"
   },
   "asset_classes": {
     "EQUITY_INDEX": {
-      "score": 3,
-      "signal": "BULLISH",
-      "confidence": 7,
-      "reason": "Tech earnings strong, credit spreads narrowing"
+      "intraday": {"score": 3, "signal": "BULLISH", "confidence": 7},
+      "swing": {"score": 5, "signal": "BULLISH", "confidence": 8},
+      "reason": "Tech earnings strong, credit spreads narrowing, weekly trend bullish"
     },
     "FIXED_INCOME": {
-      "score": -2,
-      "signal": "SLIGHT_BEARISH",
-      "confidence": 6,
-      "reason": "Fed dovish but inflation sticky, curve steepening"
+      "intraday": {"score": -2, "signal": "SLIGHT_BEARISH", "confidence": 6},
+      "swing": {"score": -3, "signal": "SLIGHT_BEARISH", "confidence": 7},
+      "reason": "Fed dovish but inflation sticky, curve steepening on duration"
     },
     "ENERGY": {
-      "score": 2,
-      "signal": "SLIGHT_BULLISH",
-      "confidence": 5,
-      "reason": "Supply constraints, weak USD, demand stable"
+      "intraday": {"score": 2, "signal": "SLIGHT_BULLISH", "confidence": 5},
+      "swing": {"score": 3, "signal": "BULLISH", "confidence": 6},
+      "reason": "Supply constraints, weak USD, demand stable - swing favors long"
     },
     "METALS": {
-      "score": 4,
-      "signal": "BULLISH",
-      "confidence": 7,
-      "reason": "Falling real yields, weak USD, safe-haven bid"
+      "intraday": {"score": 4, "signal": "BULLISH", "confidence": 7},
+      "swing": {"score": 5, "signal": "BULLISH", "confidence": 8},
+      "reason": "Falling real yields, weak USD, safe-haven bid strengthening"
     },
     "AGRICULTURE": {
-      "score": 1,
-      "signal": "SLIGHT_BULLISH",
-      "confidence": 5,
+      "intraday": {"score": 1, "signal": "SLIGHT_BULLISH", "confidence": 5},
+      "swing": {"score": 2, "signal": "SLIGHT_BULLISH", "confidence": 6},
       "reason": "Weather concerns, weak USD support"
     },
     "FX": {
-      "score": 0,
-      "signal": "NEUTRAL",
-      "confidence": 5,
-      "reason": "Mixed central bank signals, wait for clarity"
+      "intraday": {"score": 0, "signal": "NEUTRAL", "confidence": 5},
+      "swing": {"score": 1, "signal": "SLIGHT_BULLISH", "confidence": 6},
+      "reason": "Mixed central bank signals, USD weakness favors swing longs"
     },
     "CRYPTO": {
-      "score": 3,
-      "signal": "BULLISH",
-      "confidence": 6,
+      "intraday": {"score": 3, "signal": "BULLISH", "confidence": 6},
+      "swing": {"score": 4, "signal": "BULLISH", "confidence": 7},
       "reason": "Risk-on sentiment, ETF inflows, halving anticipation"
     },
     "VOLATILITY": {
-      "score": -1,
-      "signal": "SLIGHT_BEARISH",
-      "confidence": 6,
+      "intraday": {"score": -1, "signal": "SLIGHT_BEARISH", "confidence": 6},
+      "swing": {"score": -2, "signal": "SLIGHT_BEARISH", "confidence": 7},
       "reason": "VIX subdued, low vol regime, sell premium environment"
     }
   },
@@ -66,6 +57,6 @@
   "data_quality": {
     "stale_sources": [],
     "fallbacks_used": [],
-    "notes": ""
+    "notes": "Dual intraday/swing scoring active"
   }
 }
