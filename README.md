@@ -2,13 +2,19 @@
 
 Manus AI bias data for the Matrix Nano trading system.
 
+## Version 2.1 Features
+
+- **Dual Scoring** - Separate intraday and swing scores for each asset class
+- **8 Asset Classes** - EQUITY_INDEX, FIXED_INCOME, ENERGY, METALS, AGRICULTURE, FX, CRYPTO, VOLATILITY
+- **Swing-Optimized** - Swing scores consider longer-term factors (weekly trend, COT, positioning)
+
 ## Overview
 
-Matrix Nano uses a **simplified bias system** compared to Matrix Futures:
-- **1 Overall Market Bias** - General risk-on/risk-off sentiment
-- **3 Asset Class Biases** - INDICES, COMMODITIES, FX
+Matrix Nano uses a **dual-score bias system**:
+- **Intraday Scores** - For same-day IB breakout trading
+- **Swing Scores** - For multi-day trend and Globex IB trades
 
-The EA combines Manus bias with technical indicators (ALMA + MACD) to calculate per-symbol scores.
+The EA selects the appropriate score based on its `InpTradeStyle` setting.
 
 ## File Structure
 
@@ -26,47 +32,69 @@ matrix-nano-reports/
     └── MANUS_INSTRUCTIONS.md      <- Full methodology
 ```
 
-## latest.json Format
+## latest.json Format (v2.1)
 
 ```json
 {
   "date": "2026-02-22",
   "generated_at": "2026-02-22T07:30:00Z",
-  "methodology_version": "1.0_NANO",
+  "methodology_version": "2.1_NANO",
   "overall": {
-    "score": 2,
-    "signal": "SLIGHT_BULLISH",
-    "confidence": 6,
-    "reason": "Risk-on VIX low Fed dovish"
+    "intraday": {"score": 2, "signal": "SLIGHT_BULLISH", "confidence": 6},
+    "swing": {"score": 4, "signal": "BULLISH", "confidence": 7},
+    "reason": "Risk-on sentiment, swing more bullish on multi-day trend"
   },
   "asset_classes": {
-    "INDICES": {
-      "score": 3,
-      "signal": "BULLISH",
-      "confidence": 7,
-      "reason": "Tech earnings strong"
+    "EQUITY_INDEX": {
+      "intraday": {"score": 3, "signal": "BULLISH", "confidence": 7},
+      "swing": {"score": 5, "signal": "BULLISH", "confidence": 8},
+      "reason": "Tech earnings strong, weekly trend bullish"
     },
-    "COMMODITIES": {
-      "score": 4,
-      "signal": "BULLISH",
-      "confidence": 7,
-      "reason": "Weak USD gold bid"
+    "FIXED_INCOME": {
+      "intraday": {"score": -2, "signal": "SLIGHT_BEARISH", "confidence": 6},
+      "swing": {"score": -3, "signal": "SLIGHT_BEARISH", "confidence": 7},
+      "reason": "Fed dovish but inflation sticky"
+    },
+    "ENERGY": {
+      "intraday": {"score": 2, "signal": "SLIGHT_BULLISH", "confidence": 5},
+      "swing": {"score": 3, "signal": "BULLISH", "confidence": 6},
+      "reason": "Supply constraints, weak USD"
+    },
+    "METALS": {
+      "intraday": {"score": 4, "signal": "BULLISH", "confidence": 7},
+      "swing": {"score": 5, "signal": "BULLISH", "confidence": 8},
+      "reason": "Falling real yields, safe-haven bid"
+    },
+    "AGRICULTURE": {
+      "intraday": {"score": 1, "signal": "SLIGHT_BULLISH", "confidence": 5},
+      "swing": {"score": 2, "signal": "SLIGHT_BULLISH", "confidence": 6},
+      "reason": "Weather concerns, weak USD"
     },
     "FX": {
-      "score": 0,
-      "signal": "NEUTRAL",
-      "confidence": 5,
-      "reason": "Mixed signals"
+      "intraday": {"score": 0, "signal": "NEUTRAL", "confidence": 5},
+      "swing": {"score": 1, "signal": "SLIGHT_BULLISH", "confidence": 6},
+      "reason": "USD weakness favors swing longs"
+    },
+    "CRYPTO": {
+      "intraday": {"score": 3, "signal": "BULLISH", "confidence": 6},
+      "swing": {"score": 4, "signal": "BULLISH", "confidence": 7},
+      "reason": "Risk-on sentiment, ETF inflows"
+    },
+    "VOLATILITY": {
+      "intraday": {"score": -1, "signal": "SLIGHT_BEARISH", "confidence": 6},
+      "swing": {"score": -2, "signal": "SLIGHT_BEARISH", "confidence": 7},
+      "reason": "VIX subdued, low vol regime"
     }
   },
   "key_drivers": [
-    "Fed dovish stance",
-    "USD weakness",
-    "Credit stability"
+    "Fed maintaining dovish stance",
+    "USD weakness supporting commodities",
+    "Credit spreads stable"
   ],
   "data_quality": {
     "stale_sources": [],
-    "fallbacks_used": []
+    "fallbacks_used": [],
+    "notes": "Dual intraday/swing scoring active"
   }
 }
 ```
@@ -77,17 +105,30 @@ matrix-nano-reports/
 
 | Field | Type | Description |
 |-------|------|-------------|
+| intraday | object | Intraday trading score/signal/confidence |
+| swing | object | Swing trading score/signal/confidence |
+| reason | string | Brief explanation |
+
+### Score Object
+
+| Field | Type | Description |
+|-------|------|-------------|
 | score | integer | -10 to +10 |
 | signal | string | STRONG_BULLISH, BULLISH, SLIGHT_BULLISH, NEUTRAL, SLIGHT_BEARISH, BEARISH, STRONG_BEARISH |
 | confidence | integer | 1-10 (affects position sizing) |
-| reason | string | Brief explanation |
 
-### Asset Class Biases
+### 8 Asset Classes
 
-Same fields as overall, for each of:
-- **INDICES** (ES, NQ, YM, RTY)
-- **COMMODITIES** (GC, SI, CL)
-- **FX** (6E, 6A, 6J, M6E)
+| Asset Class | Symbols | Key Drivers |
+|-------------|---------|-------------|
+| **EQUITY_INDEX** | ES, NQ, YM, RTY | Fed, Real Yields, Credit, VIX |
+| **FIXED_INCOME** | ZB, ZN, ZT, GE | Fed, Inflation, Supply, Curve |
+| **ENERGY** | CL, NG, RB, HO | OPEC, Inventories, USD, Geopolitical |
+| **METALS** | GC, SI, HG, PL | Real Yields, USD, Risk, China |
+| **AGRICULTURE** | ZC, ZS, ZW, KC | Weather, USD, Demand, Inventories |
+| **FX** | 6E, 6J, 6A, 6B | Rate Diffs, Central Banks, Risk |
+| **CRYPTO** | BTC, ETH | Risk Sentiment, Flows, Regulation |
+| **VOLATILITY** | VX | VIX Level, Term Structure, Events |
 
 ## Signal Mapping
 
@@ -109,13 +150,9 @@ The EA fetches `latest.json` and combines it with technical indicators:
 Symbol Bias = (Overall x 0.25) + (Asset Class x 0.35) + (ALMA x 0.25) + (MACD x 0.15)
 ```
 
-### Asset Class Mapping
-
-| Asset Class | Symbols |
-|-------------|---------|
-| INDICES | ES, NQ, YM, RTY |
-| COMMODITIES | GC, SI, CL |
-| FX | 6E, 6A, 6J, M6E |
+The EA reads intraday or swing scores based on `InpTradeStyle`:
+- `STYLE_INTRADAY` → Uses `intraday` scores
+- `STYLE_SWING` → Uses `swing` scores
 
 ### Confidence -> Position Sizing
 
@@ -125,12 +162,25 @@ Symbol Bias = (Overall x 0.25) + (Asset Class x 0.35) + (ALMA x 0.25) + (MACD x 
 | 5 | 1.0x |
 | 10 | 1.5x |
 
+## Intraday vs Swing Factors
+
+| Factor | Intraday Weight | Swing Weight |
+|--------|-----------------|--------------|
+| VIX Level | High | Medium |
+| Session Timing | High | None |
+| Daily IB | High | Low |
+| Weekly Trend | Low | High |
+| COT Positioning | None | High |
+| Credit Spreads | Medium | High |
+| Technical (ALMA) | Medium | High |
+
 ## Update Schedule
 
 | Time (ET) | Action |
 |-----------|--------|
 | 06:00-07:00 | Pre-market update |
 | Major News | Immediate update if conditions change |
+| Sunday Evening | Weekly reset for Globex IB |
 
 ## Raw URLs for EA
 
@@ -145,6 +195,8 @@ See the `docs/` folder:
 - `BOOTSTRAP_PROMPT.md` - Copy this into Manus (<5000 chars)
 - `MANUS_INSTRUCTIONS.md` - Full methodology and format spec
 
+**Critical:** Both intraday AND swing scores must be provided for each asset class.
+
 ---
 
-*Matrix Nano Reports - Manus AI Output*
+*Matrix Nano Reports - Manus AI Output v2.1*
