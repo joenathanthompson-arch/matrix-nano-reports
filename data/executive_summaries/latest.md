@@ -1,13 +1,13 @@
 # Matrix Nano Daily Bias Report
-**Date:** February 23, 2026 | **Time:** 18:05 ET | **Run Type:** EOD
+**Date:** February 23, 2026 | **Time:** 17:33 ET | **Run Type:** EOD
 
 ---
 
 ## Overall Market Bias
-**Intraday:** NEUTRAL (+0) | Confidence: 1/10
-**Swing:** NEUTRAL (+0) | Confidence: 1/10
+**Intraday:** BEARISH (-3) | Confidence: 7/10
+**Swing:** BEARISH (-2) | Confidence: 6/10
 
-Analysis failed. All scores set to NEUTRAL with minimum confidence.
+The market is exhibiting strong risk-off sentiment at today's close, with all major equity indices experiencing significant declines. This widespread selling is accompanied by a sharp rise in the VIX, indicating heightened fear and uncertainty among investors. Consequently, safe-haven assets like Gold and Silver are seeing substantial gains, while riskier assets such as Bitcoin are falling sharply. The overall outlook points to continued caution and potential for further volatility in the near term.
 
 ---
 
@@ -15,14 +15,14 @@ Analysis failed. All scores set to NEUTRAL with minimum confidence.
 
 | Asset Class | Intraday | Swing | Avg Confidence |
 |-------------|----------|-------|----------------|
-| EQUITY_INDEX | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
-| FIXED_INCOME | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
-| ENERGY | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
-| METALS | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
-| AGRICULTURE | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
-| FX | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
-| CRYPTO | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
-| VOLATILITY | NEUTRAL (+0) | NEUTRAL (+0) | 1/10 |
+| EQUITY_INDEX | STRONG_BEARISH (-4) | BEARISH (-3) | 7/10 |
+| FIXED_INCOME | SLIGHT_BULLISH (+1) | SLIGHT_BULLISH (+1) | 5/10 |
+| ENERGY | SLIGHT_BEARISH (-1) | SLIGHT_BEARISH (-1) | 4/10 |
+| METALS | STRONG_BULLISH (+4) | BULLISH (+3) | 7/10 |
+| AGRICULTURE | NEUTRAL (+0) | NEUTRAL (+0) | 3/10 |
+| FX | SLIGHT_BEARISH (-1) | SLIGHT_BEARISH (-1) | 5/10 |
+| CRYPTO | STRONG_BEARISH (-4) | BEARISH (-3) | 6/10 |
+| VOLATILITY | STRONG_BULLISH (+4) | BULLISH (+3) | 7/10 |
 
 ---
 
@@ -30,51 +30,51 @@ Analysis failed. All scores set to NEUTRAL with minimum confidence.
 
 ### EQUITY_INDEX
 **Symbols:** ES, NQ, YM, RTY, MES, MNQ, MYM, M2K
-**Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
+**Intraday:** STRONG_BEARISH (-4) | **Swing:** BEARISH (-3)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+All major indices falling significantly, broad market weakness. | Swing: Significant daily losses suggest potential for further downside.
 
 ### FIXED_INCOME
 **Symbols:** ZB, ZN, ZT, ZF, GE, SR3
-**Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
+**Intraday:** SLIGHT_BULLISH (+1) | **Swing:** SLIGHT_BULLISH (+1)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+10Y yield falling, indicating demand for safety (bond prices rising). | Swing: Risk-off environment could sustain demand for treasuries.
 
 ### ENERGY
 **Symbols:** CL, NG, RB, HO, MCL
-**Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
+**Intraday:** SLIGHT_BEARISH (-1) | **Swing:** SLIGHT_BEARISH (-1)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+Crude oil slightly down, natural gas significantly falling. | Swing: Weakening growth outlook could pressure energy demand.
 
 ### METALS
 **Symbols:** GC, SI, HG, MGC
-**Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
+**Intraday:** STRONG_BULLISH (+4) | **Swing:** BULLISH (+3)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+Gold and silver surging as safe-haven assets. | Swing: Risk-off sentiment likely to support precious metals.
 
 ### AGRICULTURE
 **Symbols:** ZC, ZS, ZW, ZM, ZL, KC, SB, CC, CT
 **Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+No direct data, but general risk-off could have mixed impact. | Swing: No direct data, but general risk-off could have mixed impact.
 
 ### FX
 **Symbols:** 6E, 6A, 6J, 6B, M6E (positive = bearish USD)
-**Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
+**Intraday:** SLIGHT_BEARISH (-1) | **Swing:** SLIGHT_BEARISH (-1)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+DXY rising, indicating USD strength amidst global risk-off. | Swing: USD typically strengthens during periods of market uncertainty.
 
 ### CRYPTO
 **Symbols:** BTC, ETH, MBT
-**Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
+**Intraday:** STRONG_BEARISH (-4) | **Swing:** BEARISH (-3)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+Bitcoin falling sharply, extreme fear in sentiment. | Swing: Risk-off environment and fear index suggest continued pressure.
 
 ### VOLATILITY
 **Symbols:** VX, VXM (negative = low vol / sell premium)
-**Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
+**Intraday:** STRONG_BULLISH (+4) | **Swing:** BULLISH (+3)
 
-Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting to neutral
+VIX surged over 10%, indicating high fear and uncertainty. | Swing: Rising VIX suggests elevated volatility may persist.
 
 ---
 
@@ -84,20 +84,22 @@ Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting 
 |-----------|-------|-------|-------------|
 | VIX | 21.01 | Rising | Moderate risk |
 | VIX Term Structure | contango (3.04%) | — | Decay favors short vol |
-| DXY | 97.719 | Rising | Headwind for risk assets |
+| DXY | 97.725 | Rising | Headwind for risk assets |
 | 10Y Yield | 4.029% | Falling | Supportive for equities |
 | 2s10s Curve | 0.6 bps | — | Normal — growth positive |
 | HY Spread | 3 bps | Stable | Credit stress low |
-| GDPNow | 4.2% | — | Growth supportive |
+| GDPNow | None% | — | Moderate growth |
 | EIA Crude Inventory | None mb | build | Bearish CL — supply building |
 | Crypto Fear & Greed | 5/100 | Extreme Fear | Extreme fear — potential buy |
-| BTC ETF Flows | NoneM USD | outflow | Selling pressure |
+| BTC ETF Flows | NoneM USD | unknown | N/A |
 
 ---
 
 ## Key Macro Themes
 
-1. **Theme:** LLM analysis failed - all scores defaulted to neutral
+1. **Theme:** Broad equity market sell-off
+2. **Theme:** Surging VIX and safe-haven demand (Gold/Silver)
+3. **Theme:** Falling Bitcoin and extreme crypto fear
 
 ---
 
@@ -108,8 +110,8 @@ Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting 
 - Watch for any Fed speaker commentary
 
 ### This Week
-- NFP in 11 days — elevated uncertainty approaching
-- FOMC in 23 days — policy clarity pending
+- NFP in 13 days — elevated uncertainty approaching
+- FOMC in 99 days — policy clarity pending
 
 ---
 
@@ -117,12 +119,12 @@ Data unavailable - defaulting to neutral | Swing: Data unavailable - defaulting 
 
 - All data sourced from Yahoo Finance and FRED at time of generation
 - Stale sources (if any): None
-- Validation corrections applied: 8
+- Validation corrections applied: 0
 
 ---
 
 **Data Sources:** Yahoo Finance, FRED, ForexFactory, VIXCentral, Coinglass, Alternative.me, Atlanta Fed, EIA
-**Generated:** 2026-02-23T18:05:24.692491-05:00
+**Generated:** 2026-02-23T17:33:45.737944-05:00
 **Version:** 1.2
 
 ---

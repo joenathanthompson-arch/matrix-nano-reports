@@ -1,24 +1,36 @@
 {
-  "generated": "2026-02-23T18:05:24.692491-05:00",
-  "run_time": "18:05 ET",
+  "generated": "2026-02-23T17:33:45.737944-05:00",
+  "run_time": "17:33 ET",
   "run_type": "EOD",
   "version": "1.1",
   "overall": {
     "intraday": {
-      "score": 0,
-      "signal": "NEUTRAL",
-      "confidence": 1,
-      "reason": "LLM analysis failed - defaulting to neutral"
+      "score": -3,
+      "signal": "BEARISH",
+      "confidence": 7,
+      "reason": "Broad equity sell-off, rising VIX, and falling crypto indicate risk-off."
     },
     "swing": {
-      "score": 0,
-      "signal": "NEUTRAL",
-      "confidence": 1,
-      "reason": "LLM analysis failed - defaulting to neutral"
+      "score": -2,
+      "signal": "BEARISH",
+      "confidence": 6,
+      "reason": "Equity weakness and rising VIX suggest continued caution."
     }
   },
   "asset_classes": {
     "EQUITY_INDEX": {
+      "intraday": {
+        "score": -4,
+        "signal": "STRONG_BEARISH",
+        "confidence": 8,
+        "reason": "All major indices falling significantly, broad market weakness."
+      },
+      "swing": {
+        "score": -3,
+        "signal": "BEARISH",
+        "confidence": 7,
+        "reason": "Significant daily losses suggest potential for further downside."
+      },
       "symbols": [
         "ES",
         "NQ",
@@ -26,21 +38,21 @@
         "RTY",
         "MES",
         "MNQ"
-      ],
-      "intraday": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      },
-      "swing": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
+      ]
     },
     "FIXED_INCOME": {
+      "intraday": {
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 6,
+        "reason": "10Y yield falling, indicating demand for safety (bond prices rising)."
+      },
+      "swing": {
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 5,
+        "reason": "Risk-off environment could sustain demand for treasuries."
+      },
       "symbols": [
         "ZB",
         "ZN",
@@ -48,62 +60,62 @@
         "ZF",
         "GE",
         "SR3"
-      ],
-      "intraday": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      },
-      "swing": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
+      ]
     },
     "ENERGY": {
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 5,
+        "reason": "Crude oil slightly down, natural gas significantly falling."
+      },
+      "swing": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 4,
+        "reason": "Weakening growth outlook could pressure energy demand."
+      },
       "symbols": [
         "CL",
         "NG",
         "RB",
         "HO",
         "MCL"
-      ],
-      "intraday": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      },
-      "swing": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
+      ]
     },
     "METALS": {
+      "intraday": {
+        "score": 4,
+        "signal": "STRONG_BULLISH",
+        "confidence": 8,
+        "reason": "Gold and silver surging as safe-haven assets."
+      },
+      "swing": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 7,
+        "reason": "Risk-off sentiment likely to support precious metals."
+      },
       "symbols": [
         "GC",
         "SI",
         "HG",
         "MGC"
-      ],
+      ]
+    },
+    "AGRICULTURE": {
       "intraday": {
         "score": 0,
         "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
+        "confidence": 3,
+        "reason": "No direct data, but general risk-off could have mixed impact."
       },
       "swing": {
         "score": 0,
         "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
-    },
-    "AGRICULTURE": {
+        "confidence": 3,
+        "reason": "No direct data, but general risk-off could have mixed impact."
+      },
       "symbols": [
         "ZC",
         "ZS",
@@ -113,77 +125,65 @@
         "CC",
         "LE",
         "HE"
-      ],
-      "intraday": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      },
-      "swing": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
+      ]
     },
     "FX": {
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 6,
+        "reason": "DXY rising, indicating USD strength amidst global risk-off."
+      },
+      "swing": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 5,
+        "reason": "USD typically strengthens during periods of market uncertainty."
+      },
       "symbols": [
         "6E",
         "6A",
         "6J",
         "6B",
         "M6E"
-      ],
-      "intraday": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      },
-      "swing": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
+      ]
     },
     "CRYPTO": {
+      "intraday": {
+        "score": -4,
+        "signal": "STRONG_BEARISH",
+        "confidence": 7,
+        "reason": "Bitcoin falling sharply, extreme fear in sentiment."
+      },
+      "swing": {
+        "score": -3,
+        "signal": "BEARISH",
+        "confidence": 6,
+        "reason": "Risk-off environment and fear index suggest continued pressure."
+      },
       "symbols": [
         "BTC",
         "ETH",
         "MBT"
-      ],
-      "intraday": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      },
-      "swing": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
+      ]
     },
     "VOLATILITY": {
+      "intraday": {
+        "score": 4,
+        "signal": "STRONG_BULLISH",
+        "confidence": 8,
+        "reason": "VIX surged over 10%, indicating high fear and uncertainty."
+      },
+      "swing": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 7,
+        "reason": "Rising VIX suggests elevated volatility may persist."
+      },
       "symbols": [
         "VX",
         "VXM"
-      ],
-      "intraday": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      },
-      "swing": {
-        "score": 0,
-        "signal": "NEUTRAL",
-        "confidence": 1,
-        "reason": "Data unavailable - defaulting to neutral"
-      }
+      ]
     }
   },
   "market_data": {
@@ -193,9 +193,9 @@
       "change_1d_pct": 10.06
     },
     "dxy": {
-      "value": 97.719,
+      "value": 97.725,
       "trend": "rising",
-      "change_5d": 0.889
+      "change_5d": 0.895
     },
     "us10y": {
       "value": 4.029,
@@ -214,7 +214,7 @@
     "yield_curve_2s10s": 0.6,
     "vix_term_structure": "contango",
     "vix_contango_pct": 3.04,
-    "gdpnow_estimate_pct": 4.2,
+    "gdpnow_estimate_pct": null,
     "eia_crude_change_mb": null,
     "eia_signal": "build",
     "crypto_fear_greed": 5,
@@ -222,33 +222,26 @@
     "btc_etf_flow_usd_m": null,
     "gold": 5247.8999,
     "crude_oil": 66.29,
-    "btc": 64715.5078,
+    "btc": 64903.4844,
     "sp500": 6837.75,
     "nasdaq": 24708.9414
   },
   "calendar": {
     "high_impact_today": false,
     "high_impact_events": [],
-    "fomc_days_away": 23,
-    "nfp_days_away": 11,
+    "fomc_days_away": 99,
+    "nfp_days_away": 13,
     "in_blackout": false
   },
   "key_drivers": [
-    "LLM analysis failed - all scores defaulted to neutral"
+    "Broad equity market sell-off",
+    "Surging VIX and safe-haven demand (Gold/Silver)",
+    "Falling Bitcoin and extreme crypto fear"
   ],
   "data_quality": {
     "stale_sources": [],
     "fallbacks_used": [],
-    "validation_corrections": [
-      "EQUITY_INDEX: missing, defaulted to NEUTRAL",
-      "FIXED_INCOME: missing, defaulted to NEUTRAL",
-      "ENERGY: missing, defaulted to NEUTRAL",
-      "METALS: missing, defaulted to NEUTRAL",
-      "AGRICULTURE: missing, defaulted to NEUTRAL",
-      "FX: missing, defaulted to NEUTRAL",
-      "CRYPTO: missing, defaulted to NEUTRAL",
-      "VOLATILITY: missing, defaulted to NEUTRAL"
-    ],
+    "validation_corrections": [],
     "notes": "Generated by Matrix Nano Bias Script v1.2 | Run: EOD"
   }
 }
