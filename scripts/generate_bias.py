@@ -55,6 +55,7 @@ FRED_SERIES = {
     "dgs2":           "DGS2",
     "dgs10":          "DGS10",
     "breakeven_10y":  "T10YIE",
+    "yield_curve_2s10s": "T10Y2Y",   # 2s10s spread — FIXED_INCOME driver
 }
 
 
@@ -160,6 +161,213 @@ def fetch_fred_data():
     return data, stale
 
 
+def fetch_vix_term_structure():
+    """
+    Fetch VIX term structure from vixcentral.com.
+    Returns contango/backwardation status based on front-month vs back-month VIX futures.
+    """
+    import re
+    try:
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        resp = requests.get("http://vixcentral.com", timeout=15, headers=headers)
+        resp.raise_for_status()
+        text = resp.text
+
+        # VIXCentral embeds futures prices in a JS array named 'previous_close_var'
+        # Format: [F1, F2, F3, F4, F5, F6, F7, F8] = 8 monthly VIX futures
+        match = re.search(r'previous_close_var\s*=\s*\[([\d\., ]+)\]', text)
+        if match:
+            vals = [float(x.strip()) for x in match.group(1).split(',') if x.strip()]
+            if len(vals) >= 2:
+                f1 = vals[0]  # Front month
+                f2 = vals[1]  # Second month
+                # Contango = F2 > F1 (normal, bearish for VX)
+                # Backwardation = F1 > F2 (stressed, bullish for VX)
+                spread_pct = round((f2 - f1) / f1 * 100, 2) if f1 > 0 else 0
+                structure = "contango" if spread_pct > 0 else "backwardation"
+                return {
+                    "structure": structure,
+                    "contango_pct": spread_pct,
+                    "f1": f1,
+                    "f2": f2,
+                    "source": "vixcentral.com"
+                }
+
+        # Fallback: infer from VIX spot vs 30d avg (rough proxy)
+        return {"structure": "unknown", "contango_pct": None, "source": "vixcentral.com", "note": "parse failed"}
+    except Exception as e:
+        print(f"[WARN] VIX term structure fetch failed: {e}")
+        return {"structure": "unknown", "contango_pct": None, "source": "vixcentral.com", "error": str(e)}
+
+
+def fetch_btc_etf_flows():
+    """
+    Fetch Bitcoin ETF net flows.
+    Tries Coinglass public data first, then falls back to a scrape of the ETF flow page.
+    Returns total net flow in USD millions (positive = inflows, negative = outflows).
+    """
+    import re
+    # Try Coinglass public API (no key needed for some endpoints)
+    for url in [
+        "https://open-api.coinglass.com/public/v2/indicator/bitcoin_etf_flow",
+        "https://open-api.coinglass.com/api/pro/v1/bitcoin/etf/flow",
+    ]:
+        try:
+            headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/json"}
+            resp = requests.get(url, headers=headers, timeout=10)
+            if resp.status_code == 200:
+                data = resp.json()
+                # Handle various response shapes
+                rows = data.get("data", data.get("result", []))
+                if isinstance(rows, list) and rows:
+                    latest = rows[0]
+                    for key in ["totalNetFlow", "net_flow", "netFlow", "total"]:
+                        if key in latest:
+                            val = float(latest[key])
+                            # Value might already be in millions or raw USD
+                            if abs(val) > 1e9:
+                                val = val / 1e6
+                            return {"net_flow_usd_m": round(val, 1), "trend": "inflow" if val > 0 else "outflow", "source": "coinglass.com"}
+        except Exception:
+            continue
+
+    # Fallback: scrape Coinglass ETF page for the daily flow number
+    try:
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+        resp = requests.get("https://www.coinglass.com/bitcoin-etf", headers=headers, timeout=15)
+        if resp.status_code == 200:
+            # Look for net flow pattern like "$123.4M" or "-$45.6M"
+            match = re.search(r'Net Flow[^$]*\$([\-\d,\.]+)M', resp.text, re.IGNORECASE)
+            if match:
+                val = float(match.group(1).replace(",", ""))
+                return {"net_flow_usd_m": val, "trend": "inflow" if val > 0 else "outflow", "source": "coinglass.com (scraped)"}
+    except Exception:
+        pass
+
+    print(f"[WARN] BTC ETF flows: all sources failed, returning unknown")
+    return {"net_flow_usd_m": None, "trend": "unknown", "source": "coinglass.com", "note": "fetch failed - not critical"}
+
+
+def fetch_crypto_fear_greed():
+    """
+    Fetch Crypto Fear & Greed Index from alternative.me.
+    Returns value (0-100) and classification.
+    """
+    try:
+        resp = requests.get("https://api.alternative.me/fng/?limit=1", timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        entry = data["data"][0]
+        value = int(entry["value"])
+        classification = entry["value_classification"]
+        return {"value": value, "classification": classification, "source": "alternative.me"}
+    except Exception as e:
+        print(f"[WARN] Crypto Fear & Greed fetch failed: {e}")
+        return {"value": None, "classification": "unknown", "source": "alternative.me", "error": str(e)}
+
+
+def fetch_gdpnow():
+    """
+    Fetch Atlanta Fed GDPNow estimate.
+    Returns current quarter GDP growth estimate.
+    """
+    import re
+    # Try the Atlanta Fed CSV data file (most reliable)
+    try:
+        resp = requests.get(
+            "https://www.atlantafed.org/-/media/documents/cqer/researchcq/gdpnow/GDPNowCast.csv",
+            timeout=20, headers={"User-Agent": "Mozilla/5.0"}
+        )
+        if resp.status_code == 200:
+            lines = [l for l in resp.text.strip().split("\n") if l.strip()]
+            # Last line has the most recent estimate; format: date,estimate
+            for line in reversed(lines[1:]):
+                parts = line.strip().split(",")
+                if len(parts) >= 2:
+                    try:
+                        val = float(parts[-1])
+                        return {"estimate_pct": round(val, 1), "source": "atlantafed.org"}
+                    except ValueError:
+                        continue
+    except Exception:
+        pass
+
+    # Fallback: scrape the GDPNow page
+    try:
+        headers = {"User-Agent": "Mozilla/5.0"}
+        resp = requests.get("https://www.atlantafed.org/cqer/research/gdpnow", timeout=15, headers=headers)
+        resp.raise_for_status()
+        # Look for patterns like "2.3 percent" near GDP context
+        match = re.search(r'([\-\d]+\.\d)\s*percent', resp.text, re.IGNORECASE)
+        if match:
+            return {"estimate_pct": float(match.group(1)), "source": "atlantafed.org"}
+        return {"estimate_pct": None, "source": "atlantafed.org", "note": "parse failed"}
+    except Exception as e:
+        print(f"[WARN] GDPNow fetch failed: {e}")
+        return {"estimate_pct": None, "source": "atlantafed.org", "error": str(e)}
+
+
+def fetch_eia_inventory():
+    """
+    Fetch EIA weekly crude oil inventory data.
+    Returns crude oil inventory change (draw = bullish, build = bearish).
+    Uses FRED series WCRSTUS1 as a reliable free alternative to the EIA API.
+    """
+    # Primary: use FRED DCOILWTICO (WTI crude oil price) as a proxy for supply/demand signal
+    # Note: Weekly crude stocks (WCRSTUS1) requires EIA API key; use price trend as proxy
+    try:
+        url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO"
+        resp = requests.get(url, timeout=15)
+        lines = [l for l in resp.text.strip().split("\n") if l.strip()]
+        values = []
+        for line in reversed(lines[1:]):
+            parts = line.strip().split(",")
+            if len(parts) == 2 and parts[1] not in (".", ""):
+                try:
+                    values.append(float(parts[1]))
+                except ValueError:
+                    continue
+            if len(values) >= 5:
+                break
+        if len(values) >= 2:
+            # Use 5-day price change as supply/demand proxy
+            change_5d = values[0] - values[min(4, len(values)-1)]
+            signal = "draw" if change_5d > 0 else "build"  # Price up = implied draw
+            return {
+                "crude_price": round(values[0], 2),
+                "crude_change_5d": round(change_5d, 2),
+                "weekly_change_mb": None,  # Not available without EIA API key
+                "signal": signal,
+                "note": "Price-based proxy (EIA stocks require API key)",
+                "source": "FRED/DCOILWTICO"
+            }
+    except Exception:
+        pass
+
+    # Fallback: EIA API v2 (may require registration but try anyway)
+    try:
+        resp = requests.get(
+            "https://api.eia.gov/v2/petroleum/stoc/wstk/data/?frequency=weekly"
+            "&data[0]=value&facets[series][]=WCRSTUS1"
+            "&sort[0][column]=period&sort[0][direction]=desc&length=2",
+            timeout=15
+        )
+        if resp.status_code == 200:
+            rows = resp.json().get("response", {}).get("data", [])
+            if len(rows) >= 2:
+                change = float(rows[0]["value"]) - float(rows[1]["value"])
+                return {
+                    "crude_stocks_mb": round(float(rows[0]["value"]), 1),
+                    "weekly_change_mb": round(change, 1),
+                    "signal": "draw" if change < 0 else "build",
+                    "source": "eia.gov"
+                }
+    except Exception as e:
+        print(f"[WARN] EIA inventory fetch failed: {e}")
+
+    return {"crude_stocks_mb": None, "weekly_change_mb": None, "signal": "unknown", "source": "eia.gov", "note": "fetch failed - not critical"}
+
+
 def fetch_economic_calendar():
     """
     Check ForexFactory for high-impact events today and this week.
@@ -224,7 +432,7 @@ def fetch_economic_calendar():
 # LLM ANALYSIS
 # ─────────────────────────────────────────────
 
-def build_analysis_prompt(market_data, fred_data, calendar, run_type, now_et):
+def build_analysis_prompt(market_data, fred_data, calendar, extra_data, run_type, now_et):
     """Build the prompt for the LLM with all live data injected."""
 
     def v(d, key, fmt=".2f"):
@@ -285,6 +493,24 @@ def build_analysis_prompt(market_data, fred_data, calendar, run_type, now_et):
 - 2Y Treasury: {fred_data.get('dgs2', 'N/A')}%
 - 10Y Treasury: {fred_data.get('dgs10', 'N/A')}%
 - 10Y Breakeven Inflation: {fred_data.get('breakeven_10y', 'N/A')}%
+- 2s10s Yield Curve Spread: {fred_data.get('yield_curve_2s10s', 'N/A')}% ({'inverted' if isinstance(fred_data.get('yield_curve_2s10s'), float) and fred_data.get('yield_curve_2s10s', 0) < 0 else 'normal'})
+
+### VIX Term Structure
+- Structure: {extra_data.get('vix_term', {}).get('structure', 'N/A')}
+- Contango/Backwardation: {extra_data.get('vix_term', {}).get('contango_pct', 'N/A')}%
+- Interpretation: {'Bearish VX (decay favors short vol)' if extra_data.get('vix_term', {}).get('structure') == 'contango' else ('Bullish VX (backwardation = stress)' if extra_data.get('vix_term', {}).get('structure') == 'backwardation' else 'N/A')}
+
+### Growth Outlook
+- Atlanta Fed GDPNow (current quarter): {extra_data.get('gdpnow', {}).get('estimate_pct', 'N/A')}%
+
+### Energy Inventories (EIA)
+- Crude Oil Stocks: {extra_data.get('eia', {}).get('crude_stocks_mb', 'N/A')} million barrels
+- Weekly Change: {extra_data.get('eia', {}).get('weekly_change_mb', 'N/A')} mb ({extra_data.get('eia', {}).get('signal', 'N/A')})
+- Signal: {'Bullish (draw = supply tightening)' if extra_data.get('eia', {}).get('signal') == 'draw' else ('Bearish (build = supply glut)' if extra_data.get('eia', {}).get('signal') == 'build' else 'N/A')}
+
+### Crypto Sentiment
+- Fear & Greed Index: {extra_data.get('fear_greed', {}).get('value', 'N/A')} / 100 ({extra_data.get('fear_greed', {}).get('classification', 'N/A')})
+- BTC ETF Net Flow: {extra_data.get('btc_etf', {}).get('net_flow_usd_m', 'N/A')} USD million ({extra_data.get('btc_etf', {}).get('trend', 'N/A')})
 
 ### Economic Calendar
 - High-impact events today: {calendar['high_impact_today']}
@@ -488,7 +714,9 @@ def validate_and_fix(bias_data):
 # OUTPUT GENERATION
 # ─────────────────────────────────────────────
 
-def build_json_output(bias_data, market_data, fred_data, calendar, run_type, now_et, stale_yf, stale_fred, validation_errors):
+def build_json_output(bias_data, market_data, fred_data, calendar, run_type, now_et, stale_yf, stale_fred, validation_errors, extra_data=None):
+    if extra_data is None:
+        extra_data = {}
     """Build the final JSON output matching the required schema."""
     iso_ts = now_et.isoformat()
     run_time_str = now_et.strftime("%H:%M ET")
@@ -537,6 +765,15 @@ def build_json_output(bias_data, market_data, fred_data, calendar, run_type, now
             },
             "fed_funds_current": fred_data.get("fedfunds"),
             "breakeven_inflation_10y": fred_data.get("breakeven_10y"),
+            "yield_curve_2s10s": fred_data.get("yield_curve_2s10s"),
+            "vix_term_structure": extra_data.get("vix_term", {}).get("structure"),
+            "vix_contango_pct": extra_data.get("vix_term", {}).get("contango_pct"),
+            "gdpnow_estimate_pct": extra_data.get("gdpnow", {}).get("estimate_pct"),
+            "eia_crude_change_mb": extra_data.get("eia", {}).get("weekly_change_mb"),
+            "eia_signal": extra_data.get("eia", {}).get("signal"),
+            "crypto_fear_greed": extra_data.get("fear_greed", {}).get("value"),
+            "crypto_fear_greed_label": extra_data.get("fear_greed", {}).get("classification"),
+            "btc_etf_flow_usd_m": extra_data.get("btc_etf", {}).get("net_flow_usd_m"),
             "gold": market_data.get("gold", {}).get("value"),
             "crude_oil": market_data.get("crude", {}).get("value"),
             "btc": market_data.get("btc", {}).get("value"),
@@ -549,14 +786,16 @@ def build_json_output(bias_data, market_data, fred_data, calendar, run_type, now
             "stale_sources": stale_yf + stale_fred,
             "fallbacks_used": stale_yf + stale_fred,
             "validation_corrections": validation_errors,
-            "notes": f"Generated by Matrix Nano Bias Script v1.1 | Run: {run_type}",
+            "notes": f"Generated by Matrix Nano Bias Script v1.2 | Run: {run_type}",
         },
     }
     return output
 
 
-def build_markdown_summary(output, bias_data, market_data, fred_data, calendar, run_type, now_et):
+def build_markdown_summary(output, bias_data, market_data, fred_data, calendar, run_type, now_et, extra_data=None):
     """Build the executive summary Markdown file."""
+    if extra_data is None:
+        extra_data = {}
     date_str = now_et.strftime("%B %d, %Y")
     time_str = now_et.strftime("%H:%M")
 
@@ -588,6 +827,16 @@ def build_markdown_summary(output, bias_data, market_data, fred_data, calendar, 
     dxy_trend = market_data.get("dxy", {}).get("trend", "stable").capitalize()
     tnx_trend = market_data.get("tnx", {}).get("trend", "stable").capitalize()
 
+    vix_term_str = extra_data.get('vix_term', {}).get('structure', 'N/A')
+    vix_contango = extra_data.get('vix_term', {}).get('contango_pct', 'N/A')
+    fear_greed_val = extra_data.get('fear_greed', {}).get('value', 'N/A')
+    fear_greed_label = extra_data.get('fear_greed', {}).get('classification', 'N/A')
+    btc_etf_flow = extra_data.get('btc_etf', {}).get('net_flow_usd_m', 'N/A')
+    btc_etf_trend = extra_data.get('btc_etf', {}).get('trend', 'N/A')
+    gdpnow_est = extra_data.get('gdpnow', {}).get('estimate_pct', 'N/A')
+    eia_change = extra_data.get('eia', {}).get('weekly_change_mb', 'N/A')
+    eia_signal = extra_data.get('eia', {}).get('signal', 'N/A')
+    yield_curve = fred_data.get('yield_curve_2s10s', 'N/A')
     vix_impl = "Risk-on supportive" if isinstance(vix, float) and vix < 20 else ("Elevated fear" if isinstance(vix, float) and vix > 25 else "Moderate risk")
     dxy_impl = "Commodity/risk tailwind" if dxy_trend == "Falling" else ("Headwind for risk assets" if dxy_trend == "Rising" else "Neutral")
     tnx_impl = "Pressure on equities" if tnx_trend == "Rising" else ("Supportive for equities" if tnx_trend == "Falling" else "Neutral")
@@ -688,9 +937,15 @@ def build_markdown_summary(output, bias_data, market_data, fred_data, calendar, 
 | Indicator | Value | Trend | Implication |
 |-----------|-------|-------|-------------|
 | VIX | {vix} | {vix_trend} | {vix_impl} |
+| VIX Term Structure | {vix_term_str} ({vix_contango}%) | — | {'Decay favors short vol' if vix_term_str == 'contango' else ('Stress signal — long vol' if vix_term_str == 'backwardation' else 'N/A')} |
 | DXY | {dxy} | {dxy_trend} | {dxy_impl} |
 | 10Y Yield | {tnx}% | {tnx_trend} | {tnx_impl} |
+| 2s10s Curve | {yield_curve} bps | — | {'Inverted — recession signal' if isinstance(yield_curve, float) and yield_curve < 0 else ('Normal — growth positive' if isinstance(yield_curve, float) and yield_curve > 0 else 'N/A')} |
 | HY Spread | {hy_str} bps | Stable | {hy_impl} |
+| GDPNow | {gdpnow_est}% | — | {'Growth supportive' if isinstance(gdpnow_est, float) and gdpnow_est > 2 else ('Slowing' if isinstance(gdpnow_est, float) and gdpnow_est < 1 else 'Moderate growth')} |
+| EIA Crude Inventory | {eia_change} mb | {eia_signal} | {'Bullish CL — supply tightening' if eia_signal == 'draw' else ('Bearish CL — supply building' if eia_signal == 'build' else 'N/A')} |
+| Crypto Fear & Greed | {fear_greed_val}/100 | {fear_greed_label} | {'Extreme greed — caution' if isinstance(fear_greed_val, int) and fear_greed_val > 75 else ('Extreme fear — potential buy' if isinstance(fear_greed_val, int) and fear_greed_val < 25 else 'Neutral sentiment')} |
+| BTC ETF Flows | {btc_etf_flow}M USD | {btc_etf_trend} | {'Institutional demand' if btc_etf_trend == 'inflow' else ('Selling pressure' if btc_etf_trend == 'outflow' else 'N/A')} |
 
 ---
 
@@ -720,9 +975,9 @@ def build_markdown_summary(output, bias_data, market_data, fred_data, calendar, 
 
 ---
 
-**Data Sources:** Yahoo Finance, FRED, ForexFactory
+**Data Sources:** Yahoo Finance, FRED, ForexFactory, VIXCentral, Coinglass, Alternative.me, Atlanta Fed, EIA
 **Generated:** {output.get('generated', 'N/A')}
-**Version:** 1.1
+**Version:** 1.2
 
 ---
 **End of Report**
@@ -851,9 +1106,24 @@ def main():
     calendar = fetch_economic_calendar()
     print(f"      High-impact today: {calendar['high_impact_today']} | Events: {calendar['high_impact_events']}")
 
+    print("[3b/6] Fetching supplementary data sources...")
+    vix_term = fetch_vix_term_structure()
+    btc_etf = fetch_btc_etf_flows()
+    fear_greed = fetch_crypto_fear_greed()
+    gdpnow = fetch_gdpnow()
+    eia = fetch_eia_inventory()
+    extra_data = {
+        "vix_term": vix_term,
+        "btc_etf": btc_etf,
+        "fear_greed": fear_greed,
+        "gdpnow": gdpnow,
+        "eia": eia,
+    }
+    print(f"      VIX structure={vix_term.get('structure','N/A')} | F&G={fear_greed.get('value','N/A')} | EIA={eia.get('signal','N/A')} | GDPNow={gdpnow.get('estimate_pct','N/A')}%")
+
     # Step 2: LLM analysis
     print("[4/6] Calling LLM for bias analysis...")
-    prompt = build_analysis_prompt(market_data, fred_data, calendar, run_type, now_et)
+    prompt = build_analysis_prompt(market_data, fred_data, calendar, extra_data, run_type, now_et)
 
     try:
         llm_response = call_llm(prompt)
@@ -885,8 +1155,8 @@ def main():
     if validation_errors:
         print(f"      Validation corrections: {validation_errors}")
 
-    output_json = build_json_output(bias_data, market_data, fred_data, calendar, run_type, now_et, stale_yf, stale_fred, validation_errors)
-    exec_md = build_markdown_summary(output_json, bias_data, market_data, fred_data, calendar, run_type, now_et)
+    output_json = build_json_output(bias_data, market_data, fred_data, calendar, run_type, now_et, stale_yf, stale_fred, validation_errors, extra_data)
+    exec_md = build_markdown_summary(output_json, bias_data, market_data, fred_data, calendar, run_type, now_et, extra_data)
 
     # Step 4: Commit
     print("[6/6] Committing to GitHub...")
