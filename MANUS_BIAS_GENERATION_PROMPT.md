@@ -1,6 +1,6 @@
 # Matrix Nano Bias Generation - Manus Task Specification
 
-**Version:** 1.1
+**Version:** 1.2
 **Last Updated:** 2026-02-23
 **Author:** Joseph Thompson
 
@@ -112,6 +112,66 @@ You are the **AI Bias Advisor** for Matrix Nano, a futures trading system. Your 
         "confidence": 6,
         "reason": "Dollar weakness trend; ECB hawkish relative to Fed"
       }
+    },
+    "FIXED_INCOME": {
+      "symbols": ["ZB", "ZN", "ZT", "ZF", "GE", "SR3"],
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 5,
+        "reason": "Yields steady; awaiting Fed guidance"
+      },
+      "swing": {
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 6,
+        "reason": "Sticky inflation; curve steepening on supply"
+      }
+    },
+    "AGRICULTURE": {
+      "symbols": ["ZC", "ZS", "ZW", "KC", "SB", "CC", "LE", "HE"],
+      "intraday": {
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 4,
+        "reason": "Weather concerns; weak USD support"
+      },
+      "swing": {
+        "score": 2,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 5,
+        "reason": "South America drought; export demand steady"
+      }
+    },
+    "CRYPTO": {
+      "symbols": ["BTC", "ETH", "MBT"],
+      "intraday": {
+        "score": 2,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 5,
+        "reason": "Risk-on sentiment; ETF flows positive"
+      },
+      "swing": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 6,
+        "reason": "Halving anticipation; institutional adoption"
+      }
+    },
+    "VOLATILITY": {
+      "symbols": ["VX", "VXM"],
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 6,
+        "reason": "VIX subdued; term structure in contango"
+      },
+      "swing": {
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 7,
+        "reason": "Low vol regime; sell premium environment"
+      }
     }
   },
   "market_data": {
@@ -163,9 +223,13 @@ The executive summary provides a human-readable analysis for manual review. Gene
 | Asset Class | Intraday | Swing | Confidence |
 |-------------|----------|-------|------------|
 | EQUITY_INDEX | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
-| METALS | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| FIXED_INCOME | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
 | ENERGY | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| METALS | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| AGRICULTURE | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
 | FX | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| CRYPTO | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| VOLATILITY | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
 
 ---
 
@@ -177,8 +241,8 @@ The executive summary provides a human-readable analysis for manual review. Gene
 
 [2-3 sentences explaining the bias rationale, key drivers, and any important levels or events]
 
-### METALS
-**Symbols:** GC, SI, HG, MGC
+### FIXED_INCOME
+**Symbols:** ZB, ZN, ZT, ZF, GE, SR3
 **Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
 
 [2-3 sentences explaining the bias rationale]
@@ -189,8 +253,32 @@ The executive summary provides a human-readable analysis for manual review. Gene
 
 [2-3 sentences explaining the bias rationale]
 
+### METALS
+**Symbols:** GC, SI, HG, MGC
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale]
+
+### AGRICULTURE
+**Symbols:** ZC, ZS, ZW, KC, SB, CC, LE, HE
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale]
+
 ### FX
 **Symbols:** 6E, 6A, 6J, 6B, M6E
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale]
+
+### CRYPTO
+**Symbols:** BTC, ETH, MBT
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale]
+
+### VOLATILITY
+**Symbols:** VX, VXM
 **Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
 
 [2-3 sentences explaining the bias rationale]
@@ -446,6 +534,79 @@ The executive summary provides a human-readable analysis for manual review. Gene
 - 6J (JPY/USD inverse): BoJ policy, carry trade flows
 - 6B (GBP/USD): BoE policy, UK data
 
+### FIXED_INCOME (ZB, ZN, ZT, ZF)
+
+| Factor | Weight | Data Source |
+|--------|--------|-------------|
+| Fed policy expectations | 30% | CME FedWatch |
+| Inflation expectations | 25% | TIPS breakevens |
+| Supply/auction demand | 15% | Treasury auctions |
+| Yield curve shape | 15% | 2s10s spread |
+| Risk sentiment | 15% | Flight to safety flows |
+
+**Note:** Bullish FIXED_INCOME = Bond prices UP = Yields DOWN
+
+**Key considerations:**
+- ZB (30Y): Most sensitive to inflation expectations
+- ZN (10Y): Benchmark, tracks real yields closely
+- ZT (2Y): Most sensitive to Fed policy
+- Curve steepening = Bearish for long-end (ZB, ZN)
+
+### AGRICULTURE (ZC, ZS, ZW, KC, SB)
+
+| Factor | Weight | Data Source |
+|--------|--------|-------------|
+| Weather conditions | 30% | NOAA, USDA crop reports |
+| USD direction (inverse) | 20% | DXY |
+| Global demand | 20% | WASDE, export sales |
+| Inventory levels | 15% | USDA stocks |
+| Seasonal patterns | 15% | Planting/harvest cycles |
+
+**Key reports:**
+- USDA WASDE: Monthly supply/demand
+- Crop Progress: Weekly conditions
+- Export Sales: Weekly demand
+- Stocks reports: Quarterly
+
+**Crop-specific:**
+- ZC (Corn): Ethanol demand, China imports
+- ZS (Soybeans): China demand, Brazil competition
+- ZW (Wheat): Geopolitical (Russia/Ukraine), weather
+
+### CRYPTO (BTC, ETH)
+
+| Factor | Weight | Data Source |
+|--------|--------|-------------|
+| Risk sentiment | 30% | VIX, equity correlation |
+| ETF flows | 25% | Coinglass, fund flows |
+| Regulatory news | 20% | Headlines, SEC actions |
+| On-chain metrics | 15% | Glassnode, exchange flows |
+| Halving cycle | 10% | Supply schedule |
+
+**Key considerations:**
+- Highly correlated to NQ/risk assets
+- Size positions appropriately for volatility
+- ETF approval/flows are major drivers
+- Regulatory headlines cause sharp moves
+
+### VOLATILITY (VX)
+
+| Factor | Weight | Data Source |
+|--------|--------|-------------|
+| VIX spot level | 30% | CBOE VIX |
+| Term structure | 25% | VIX futures curve |
+| Event calendar | 20% | FOMC, NFP, earnings |
+| Realized vs implied | 15% | SPX realized vol |
+| Positioning | 10% | COT data, flows |
+
+**CRITICAL - Volatility Bias Interpretation:**
+- **Bullish VOLATILITY** = Expect VIX to RISE = Long VX
+- **Bearish VOLATILITY** = Expect VIX to FALL = Short VX / sell premium
+
+**Term structure states:**
+- Contango (normal): Front month < back months = bearish bias (decay)
+- Backwardation (stressed): Front month > back months = bullish bias
+
 ---
 
 ## News Impact Rules (CRITICAL)
@@ -646,6 +807,66 @@ If all data fails:
         "signal": "SLIGHT_BULLISH",
         "confidence": 6,
         "reason": "Fed dovish pivot vs ECB; yield diff narrowing"
+      }
+    },
+    "FIXED_INCOME": {
+      "symbols": ["ZB", "ZN", "ZT", "ZF", "GE", "SR3"],
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 5,
+        "reason": "Yields steady; supply coming this week"
+      },
+      "swing": {
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 6,
+        "reason": "Sticky inflation; curve steepening"
+      }
+    },
+    "AGRICULTURE": {
+      "symbols": ["ZC", "ZS", "ZW", "KC", "SB", "CC", "LE", "HE"],
+      "intraday": {
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 4,
+        "reason": "Weather concerns; weak USD support"
+      },
+      "swing": {
+        "score": 2,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 5,
+        "reason": "South America drought; demand stable"
+      }
+    },
+    "CRYPTO": {
+      "symbols": ["BTC", "ETH", "MBT"],
+      "intraday": {
+        "score": 2,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 5,
+        "reason": "Risk-on; ETF flows positive"
+      },
+      "swing": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 6,
+        "reason": "Halving anticipation; institutional bid"
+      }
+    },
+    "VOLATILITY": {
+      "symbols": ["VX", "VXM"],
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 6,
+        "reason": "VIX subdued; contango intact"
+      },
+      "swing": {
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 7,
+        "reason": "Low vol regime; sell premium"
       }
     }
   },
