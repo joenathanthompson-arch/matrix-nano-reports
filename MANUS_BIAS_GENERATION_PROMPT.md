@@ -1,6 +1,6 @@
 # Matrix Nano Bias Generation - Manus Task Specification
 
-**Version:** 1.0
+**Version:** 1.1
 **Last Updated:** 2026-02-23
 **Author:** Joseph Thompson
 
@@ -21,9 +21,14 @@ You are the **AI Bias Advisor** for Matrix Nano, a futures trading system. Your 
 
 ### Delivery Method
 
+**Output 1: JSON Bias Scores**
 1. **Commit JSON file** to GitHub repository: `matrix-nano-reports`
 2. **Primary file:** `data/bias_scores/latest.json` (overwritten each run)
 3. **Archive file:** `data/bias_scores/archive/YYYY-MM-DD_HHMM_ET.json` (preserved)
+
+**Output 2: Executive Summary (Markdown)**
+1. **Primary file:** `data/executive_summaries/latest.md` (overwritten each run)
+2. **Archive file:** `data/executive_summaries/archive/YYYY-MM-DD_HHMM_ET.md` (preserved)
 
 ### JSON Structure (EXACT FORMAT REQUIRED)
 
@@ -127,6 +132,126 @@ You are the **AI Bias Advisor** for Matrix Nano, a futures trading system. Your 
   }
 }
 ```
+
+---
+
+## Executive Summary Format (Markdown)
+
+The executive summary provides a human-readable analysis for manual review. Generate this alongside the JSON.
+
+### File Locations
+- **Primary:** `data/executive_summaries/latest.md`
+- **Archive:** `data/executive_summaries/archive/YYYY-MM-DD_HHMM_ET.md`
+
+### Markdown Template
+
+```markdown
+# Matrix Nano Daily Bias Report
+**Date:** [Month Day, Year] | **Time:** [HH:MM] ET | **Run Type:** [PRE/EOD]
+
+---
+
+## Overall Market Bias: [SIGNAL] ([+/-SCORE])
+**Confidence:** [X]/10
+
+[2-3 sentence summary of the overall market environment and key drivers]
+
+---
+
+## Asset Class Summary
+
+| Asset Class | Intraday | Swing | Confidence |
+|-------------|----------|-------|------------|
+| EQUITY_INDEX | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| METALS | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| ENERGY | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+| FX | [SIGNAL] ([SCORE]) | [SIGNAL] ([SCORE]) | [X]/10 |
+
+---
+
+## Detailed Asset Class Analysis
+
+### EQUITY_INDEX
+**Symbols:** ES, NQ, YM, RTY, MES, MNQ
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale, key drivers, and any important levels or events]
+
+### METALS
+**Symbols:** GC, SI, HG, MGC
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale]
+
+### ENERGY
+**Symbols:** CL, NG, RB, HO, MCL
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale]
+
+### FX
+**Symbols:** 6E, 6A, 6J, 6B, M6E
+**Intraday:** [SIGNAL] ([SCORE]) | **Swing:** [SIGNAL] ([SCORE])
+
+[2-3 sentences explaining the bias rationale]
+
+---
+
+## Key Market Data
+
+| Indicator | Value | Trend | Implication |
+|-----------|-------|-------|-------------|
+| VIX | [XX.X] | [Rising/Falling/Stable] | [Brief note] |
+| DXY | [XXX.X] | [Rising/Falling/Stable] | [Brief note] |
+| 10Y Yield | [X.XX]% | [Rising/Falling/Stable] | [Brief note] |
+| HY Spread | [XXX]bps | [Widening/Tightening/Stable] | [Brief note] |
+
+---
+
+## Key Macro Themes
+
+1. **[Theme 1]:** [Brief explanation of impact on markets]
+2. **[Theme 2]:** [Brief explanation of impact on markets]
+3. **[Theme 3]:** [Brief explanation of impact on markets]
+
+---
+
+## Upcoming Catalysts
+
+### Next 24 Hours
+- [Event 1] - [Expected Impact]
+- [Event 2] - [Expected Impact]
+
+### This Week
+- [Event 1] ([Day]) - [Expected Impact]
+- [Event 2] ([Day]) - [Expected Impact]
+
+---
+
+## Risk Factors & Caveats
+
+- [Any data quality issues or stale sources]
+- [Any unusually uncertain conditions]
+- [Any blackout periods approaching]
+
+---
+
+**Data Sources:** Yahoo Finance, FRED, ForexFactory
+**Generated:** [ISO timestamp]
+**Version:** 1.0
+
+---
+**End of Report**
+```
+
+### Executive Summary Guidelines
+
+1. **Tone:** Professional, objective, data-driven
+2. **Length:** 400-600 words (concise but complete)
+3. **Focus:** Actionable insights, not just data recitation
+4. **Dual Timeframes:** Always address both intraday and swing perspectives
+5. **Key Levels:** Mention important support/resistance when relevant
+6. **Catalysts:** Highlight upcoming events that could change the bias
 
 ---
 
