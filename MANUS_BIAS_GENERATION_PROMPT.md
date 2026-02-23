@@ -1,8 +1,18 @@
 # Matrix Nano Bias Generation - Manus Task Specification
 
-**Version:** 1.2
+**Version:** 1.3
 **Last Updated:** 2026-02-23
 **Author:** Joseph Thompson
+
+---
+
+> **IMPORTANT: This prompt has been UNIFIED with Matrix Futures.**
+>
+> The master prompt is now located at:
+> **`matrix-futures-reports/MANUS_UNIFIED_BIAS_PROMPT.md`**
+>
+> Manus should use the unified prompt to generate output for BOTH systems
+> from a single data fetch. This file is kept for reference only.
 
 ---
 
