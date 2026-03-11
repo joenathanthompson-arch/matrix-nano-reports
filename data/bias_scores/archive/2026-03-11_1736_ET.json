@@ -1,0 +1,265 @@
+{
+  "generated": "2026-03-11T17:36:38.628998-04:00",
+  "run_time": "17:36 ET",
+  "run_type": "EOD",
+  "version": "1.1",
+  "overall": {
+    "intraday": {
+      "score": -2,
+      "signal": "BEARISH",
+      "confidence": 8,
+      "reason": "Broad equity weakness, rising DXY and yields, falling metals."
+    },
+    "swing": {
+      "score": -2,
+      "signal": "BEARISH",
+      "confidence": 8,
+      "reason": "Rising yields, strong dollar, VIX backwardation, CPI impact."
+    }
+  },
+  "asset_classes": {
+    "EQUITY_INDEX": {
+      "intraday": {
+        "score": -3,
+        "signal": "BEARISH",
+        "confidence": 8,
+        "reason": "All major indices falling, rising yields and DXY are headwinds."
+      },
+      "swing": {
+        "score": -3,
+        "signal": "BEARISH",
+        "confidence": 8,
+        "reason": "Rising yields, VIX backwardation, CPI data today."
+      },
+      "symbols": [
+        "ES",
+        "NQ",
+        "YM",
+        "RTY",
+        "MES",
+        "MNQ"
+      ]
+    },
+    "FIXED_INCOME": {
+      "intraday": {
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 8,
+        "reason": "10Y Treasury yield rising, indicating falling bond prices."
+      },
+      "swing": {
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 8,
+        "reason": "Rising yields, strong DXY, potential for continued rate pressure."
+      },
+      "symbols": [
+        "ZB",
+        "ZN",
+        "ZT",
+        "ZF",
+        "GE",
+        "SR3"
+      ]
+    },
+    "ENERGY": {
+      "intraday": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "Crude oil and natural gas showing strong daily gains."
+      },
+      "swing": {
+        "score": 2,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "Strong daily gains, potential for continued demand/supply concerns."
+      },
+      "symbols": [
+        "CL",
+        "NG",
+        "RB",
+        "HO",
+        "MCL"
+      ]
+    },
+    "METALS": {
+      "intraday": {
+        "score": -4,
+        "signal": "STRONG_BEARISH",
+        "confidence": 8,
+        "reason": "Gold and silver sharply lower, strong DXY is a major headwind."
+      },
+      "swing": {
+        "score": -4,
+        "signal": "STRONG_BEARISH",
+        "confidence": 8,
+        "reason": "Strong DXY, rising yields, risk-off sentiment hurting safe havens."
+      },
+      "symbols": [
+        "GC",
+        "SI",
+        "HG",
+        "MGC"
+      ]
+    },
+    "AGRICULTURE": {
+      "intraday": {
+        "score": 0,
+        "signal": "NEUTRAL",
+        "confidence": 8,
+        "reason": "No direct data, but general inflation concerns could be supportive."
+      },
+      "swing": {
+        "score": 0,
+        "signal": "NEUTRAL",
+        "confidence": 8,
+        "reason": "No direct data, but general inflation concerns could be supportive."
+      },
+      "symbols": [
+        "ZC",
+        "ZS",
+        "ZW",
+        "KC",
+        "SB",
+        "CC",
+        "LE",
+        "HE"
+      ]
+    },
+    "FX": {
+      "intraday": {
+        "score": -3,
+        "signal": "BEARISH",
+        "confidence": 8,
+        "reason": "DXY rising strongly, indicating broad USD strength against majors."
+      },
+      "swing": {
+        "score": -3,
+        "signal": "BEARISH",
+        "confidence": 8,
+        "reason": "Strong DXY, rising US yields, risk-off sentiment supports USD."
+      },
+      "symbols": [
+        "6E",
+        "6A",
+        "6J",
+        "6B",
+        "M6E"
+      ]
+    },
+    "CRYPTO": {
+      "intraday": {
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 8,
+        "reason": "Bitcoin showing positive daily performance despite broader weakness."
+      },
+      "swing": {
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 8,
+        "reason": "Bitcoin resilience, but extreme fear could limit upside."
+      },
+      "symbols": [
+        "BTC",
+        "ETH",
+        "MBT"
+      ]
+    },
+    "VOLATILITY": {
+      "intraday": {
+        "score": 2,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "VIX rising despite daily percentage drop, backwardation indicates stress."
+      },
+      "swing": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "VIX backwardation, equity weakness, and CPI event point to higher vol."
+      },
+      "symbols": [
+        "VX",
+        "VXM"
+      ]
+    }
+  },
+  "market_data": {
+    "vix": {
+      "value": 24.23,
+      "trend": "rising",
+      "change_1d_pct": -2.81
+    },
+    "dxy": {
+      "value": 99.262,
+      "trend": "rising",
+      "change_5d": 0.882
+    },
+    "us10y": {
+      "value": 4.208,
+      "trend": "rising"
+    },
+    "real_yield_10y": {
+      "value": null,
+      "trend": "stable"
+    },
+    "hy_spread": {
+      "value": null,
+      "trend": "stable"
+    },
+    "fed_funds_current": 3.64,
+    "breakeven_inflation_10y": null,
+    "yield_curve_2s10s": null,
+    "vix_term_structure": "backwardation",
+    "vix_contango_pct": -4.69,
+    "gdpnow_estimate_pct": 4.2,
+    "eia_crude_change_mb": null,
+    "eia_signal": "unknown",
+    "crypto_fear_greed": 15,
+    "crypto_fear_greed_label": "Extreme Fear",
+    "btc_etf_flow_usd_m": null,
+    "gold": 5183.8999,
+    "crude_oil": 88.41,
+    "btc": 70677.5781,
+    "sp500": 6775.7998,
+    "nasdaq": 24965.0059
+  },
+  "calendar": {
+    "high_impact_today": true,
+    "high_impact_events": [
+      "CPI y/y",
+      "CPI m/m",
+      "Core CPI m/m"
+    ],
+    "fomc_days_away": 7,
+    "nfp_days_away": 23,
+    "in_blackout": false
+  },
+  "key_drivers": [
+    "Rising DXY and Treasury yields",
+    "Broad equity market weakness",
+    "CPI data release today"
+  ],
+  "data_quality": {
+    "stale_sources": [
+      "DFII10",
+      "BAMLH0A0HYM2",
+      "DGS2",
+      "DGS10",
+      "T10YIE",
+      "T10Y2Y"
+    ],
+    "fallbacks_used": [
+      "DFII10",
+      "BAMLH0A0HYM2",
+      "DGS2",
+      "DGS10",
+      "T10YIE",
+      "T10Y2Y"
+    ],
+    "validation_corrections": [],
+    "notes": "Generated by Matrix Nano Bias Script v1.2 | Run: EOD"
+  }
+}
