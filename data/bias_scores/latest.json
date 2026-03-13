@@ -11,7 +11,7 @@
       "reason": "Equity indices falling, strong USD, commodities mixed, high VIX."
     },
     "swing": {
-      "score": -3,
+      "score": -2,
       "signal": "BEARISH",
       "confidence": 6,
       "reason": "Broad market weakness, rising yields, extreme fear in crypto, VIX backwardation."
@@ -48,7 +48,7 @@
         "reason": "10Y Treasury yield rising, indicating bond selling."
       },
       "swing": {
-        "score": -3,
+        "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
         "reason": "Rising 10Y yield, positive 2s10s spread, higher Fed Funds Rate."
@@ -175,8 +175,8 @@
         "reason": "VIX rising, term structure in backwardation (stress)."
       },
       "swing": {
-        "score": 4,
-        "signal": "STRONG_BULLISH",
+        "score": 3,
+        "signal": "BULLISH",
         "confidence": 8,
         "reason": "VIX backwardation and rising VIX indicate increasing market stress."
       },
