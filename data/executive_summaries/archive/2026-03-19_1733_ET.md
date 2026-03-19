@@ -5,11 +5,11 @@
 
 ## Overall Market Bias
 **Intraday:** BEARISH (-2) | Confidence: 6/10
-**Swing:** SLIGHT_BEARISH (-1) | Confidence: 5/10
+**Swing:** BEARISH (-2) | Confidence: 6/10
 
-The market is showing a bearish bias across major equity indices and precious metals, with rising Treasury yields indicating a shift away from bonds. Despite a falling VIX, its backwardation structure suggests underlying market stress. The USD is weakening, while crypto sentiment remains in 'Extreme Fear'.
+The market is exhibiting a bearish sentiment across most asset classes, with major equity indices declining and precious metals experiencing significant drops. The VIX term structure is in backwardation, signaling increased market stress and potential for higher volatility. The US Dollar is strengthening, contributing to the weakness in commodities. Today's high-impact economic calendar events likely contributed to the cautious and risk-off tone.
 
-> **High-Impact Events Today:** SNB Policy Rate, SNB Monetary Policy Assessment, Unemployment Claims, Official Bank Rate, Monetary Policy Statement, BOJ Press Conference, ECB Press Conference, Main Refinancing Rate, Monetary Policy Summary, MPC Official Bank Rate Votes, SNB Press Conference, Claimant Count Change — Confidence reduced per news impact rules.
+> **High-Impact Events Today:** Official Bank Rate, Monetary Policy Statement, Main Refinancing Rate, MPC Official Bank Rate Votes, Unemployment Claims, ECB Press Conference, BOJ Press Conference, Monetary Policy Summary, SNB Policy Rate, Claimant Count Change, SNB Press Conference, SNB Monetary Policy Assessment — Confidence reduced per news impact rules.
 
 ---
 
@@ -17,14 +17,14 @@ The market is showing a bearish bias across major equity indices and precious me
 
 | Asset Class | Intraday | Swing | Avg Confidence |
 |-------------|----------|-------|----------------|
-| EQUITY_INDEX | BEARISH (-2) | BEARISH (-2) | 6/10 |
+| EQUITY_INDEX | BEARISH (-2) | BEARISH (-2) | 7/10 |
 | FIXED_INCOME | BEARISH (-2) | BEARISH (-2) | 7/10 |
-| ENERGY | SLIGHT_BEARISH (-1) | SLIGHT_BULLISH (+1) | 5/10 |
-| METALS | STRONG_BEARISH (-4) | BEARISH (-3) | 7/10 |
-| AGRICULTURE | NEUTRAL (+0) | NEUTRAL (+0) | 3/10 |
-| FX | SLIGHT_BULLISH (+1) | SLIGHT_BULLISH (+1) | 6/10 |
-| CRYPTO | SLIGHT_BEARISH (-1) | BEARISH (-2) | 5/10 |
-| VOLATILITY | BULLISH (+2) | BULLISH (+3) | 7/10 |
+| ENERGY | SLIGHT_BEARISH (-1) | SLIGHT_BEARISH (-1) | 6/10 |
+| METALS | STRONG_BEARISH (-4) | STRONG_BEARISH (-4) | 8/10 |
+| AGRICULTURE | NEUTRAL (+0) | NEUTRAL (+0) | 5/10 |
+| FX | BEARISH (-2) | BEARISH (-2) | 7/10 |
+| CRYPTO | SLIGHT_BEARISH (-1) | SLIGHT_BEARISH (-1) | 6/10 |
+| VOLATILITY | BULLISH (+3) | BULLISH (+3) | 8/10 |
 
 ---
 
@@ -34,49 +34,49 @@ The market is showing a bearish bias across major equity indices and precious me
 **Symbols:** ES, NQ, YM, RTY, MES, MNQ, MYM, M2K
 **Intraday:** BEARISH (-2) | **Swing:** BEARISH (-2)
 
-Major indices falling, except SOX showing some resilience. | Swing: Falling indices, rising yields, but VIX backwardation suggests caution.
+S&P, NASDAQ, Dow falling; Russell 2000 also falling despite positive change. | Swing: Broad market weakness, VIX backwardation, rising 10Y yield.
 
 ### FIXED_INCOME
 **Symbols:** ZB, ZN, ZT, ZF, GE, SR3
 **Intraday:** BEARISH (-2) | **Swing:** BEARISH (-2)
 
-10Y Treasury yield rising, indicating bond selling. | Swing: Rising 10Y yield and positive 2s10s spread point to higher rates.
+10Y Treasury yield rising significantly. | Swing: Rising 10Y yield, normal yield curve, high-impact events.
 
 ### ENERGY
 **Symbols:** CL, NG, RB, HO, MCL
-**Intraday:** SLIGHT_BEARISH (-1) | **Swing:** SLIGHT_BULLISH (+1)
+**Intraday:** SLIGHT_BEARISH (-1) | **Swing:** SLIGHT_BEARISH (-1)
 
-Crude oil falling, but natural gas rising. | Swing: Crude oil falling, but natural gas rising; EIA data pending.
+Crude oil falling, natural gas rising. | Swing: Crude oil weakness, natural gas strength, no inventory data.
 
 ### METALS
 **Symbols:** GC, SI, HG, MGC
-**Intraday:** STRONG_BEARISH (-4) | **Swing:** BEARISH (-3)
+**Intraday:** STRONG_BEARISH (-4) | **Swing:** STRONG_BEARISH (-4)
 
-Gold and silver both significantly falling. | Swing: Significant daily drops in gold and silver, strong bearish signal.
+Gold and Silver experiencing significant declines. | Swing: Sharp declines in both gold and silver, strong USD.
 
 ### AGRICULTURE
 **Symbols:** ZC, ZS, ZW, ZM, ZL, KC, SB, CC, CT
 **Intraday:** NEUTRAL (+0) | **Swing:** NEUTRAL (+0)
 
-No direct data for agriculture, neutral stance. | Swing: No direct data for agriculture, neutral stance.
+No direct data for agriculture, neutral based on overall market. | Swing: No direct data for agriculture, neutral based on overall market.
 
 ### FX
 **Symbols:** 6E, 6A, 6J, 6B, M6E (positive = bearish USD)
-**Intraday:** SLIGHT_BULLISH (+1) | **Swing:** SLIGHT_BULLISH (+1)
+**Intraday:** BEARISH (-2) | **Swing:** BEARISH (-2)
 
-DXY falling, indicating USD weakness; EUR/USD, GBP/USD rising. | Swing: DXY falling, suggesting continued USD weakness.
+DXY rising, indicating USD strength against major pairs. | Swing: Strong DXY, USD strength, high-impact central bank events.
 
 ### CRYPTO
 **Symbols:** BTC, ETH, MBT
-**Intraday:** SLIGHT_BEARISH (-1) | **Swing:** BEARISH (-2)
+**Intraday:** SLIGHT_BEARISH (-1) | **Swing:** SLIGHT_BEARISH (-1)
 
-Bitcoin falling slightly, Fear & Greed in Extreme Fear. | Swing: Extreme Fear sentiment and slight BTC dip suggest caution.
+Bitcoin falling, extreme fear in sentiment. | Swing: Bitcoin slightly down, extreme fear, no ETF flow data.
 
 ### VOLATILITY
 **Symbols:** VX, VXM (negative = low vol / sell premium)
-**Intraday:** BULLISH (+2) | **Swing:** BULLISH (+3)
+**Intraday:** BULLISH (+3) | **Swing:** BULLISH (+3)
 
-VIX falling, but term structure in backwardation (bullish VX). | Swing: VIX backwardation indicates market stress, bullish for VX.
+VIX in backwardation, indicating market stress. | Swing: VIX backwardation, falling equity indices, high-impact events.
 
 ---
 
@@ -99,9 +99,9 @@ VIX falling, but term structure in backwardation (bullish VX). | Swing: VIX back
 
 ## Key Macro Themes
 
-1. **Theme:** Falling equity indices
-2. **Theme:** Rising 10Y Treasury yield
-3. **Theme:** Significant drop in precious metals
+1. **Theme:** Equity market weakness across major indices
+2. **Theme:** Strong USD and falling precious metals
+3. **Theme:** VIX backwardation indicating market stress
 
 ---
 
@@ -126,7 +126,7 @@ VIX falling, but term structure in backwardation (bullish VX). | Swing: VIX back
 ---
 
 **Data Sources:** Yahoo Finance, FRED, ForexFactory, VIXCentral, Coinglass, Alternative.me, Atlanta Fed, EIA
-**Generated:** 2026-03-19T17:33:04.692352-04:00
+**Generated:** 2026-03-19T17:33:15.771303-04:00
 **Version:** 1.2
 
 ---

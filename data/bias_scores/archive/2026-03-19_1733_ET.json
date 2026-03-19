@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-19T17:33:04.692352-04:00",
+  "generated": "2026-03-19T17:33:15.771303-04:00",
   "run_time": "17:33 ET",
   "run_type": "EOD",
   "version": "1.1",
@@ -8,13 +8,13 @@
       "score": -2,
       "signal": "BEARISH",
       "confidence": 6,
-      "reason": "Equity indices falling, gold/silver down, but VIX falling too."
+      "reason": "Major indices falling, commodities down, VIX backwardation."
     },
     "swing": {
-      "score": -1,
-      "signal": "SLIGHT_BEARISH",
-      "confidence": 5,
-      "reason": "Mixed signals: falling equities, rising yields, but VIX backwardation."
+      "score": -2,
+      "signal": "BEARISH",
+      "confidence": 6,
+      "reason": "Broad market weakness, VIX structure, high-impact events today."
     }
   },
   "asset_classes": {
@@ -23,13 +23,13 @@
         "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "Major indices falling, except SOX showing some resilience."
+        "reason": "S&P, NASDAQ, Dow falling; Russell 2000 also falling despite positive change."
       },
       "swing": {
         "score": -2,
         "signal": "BEARISH",
-        "confidence": 6,
-        "reason": "Falling indices, rising yields, but VIX backwardation suggests caution."
+        "confidence": 7,
+        "reason": "Broad market weakness, VIX backwardation, rising 10Y yield."
       },
       "symbols": [
         "ES",
@@ -45,13 +45,13 @@
         "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "10Y Treasury yield rising, indicating bond selling."
+        "reason": "10Y Treasury yield rising significantly."
       },
       "swing": {
         "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "Rising 10Y yield and positive 2s10s spread point to higher rates."
+        "reason": "Rising 10Y yield, normal yield curve, high-impact events."
       },
       "symbols": [
         "ZB",
@@ -67,13 +67,13 @@
         "score": -1,
         "signal": "SLIGHT_BEARISH",
         "confidence": 6,
-        "reason": "Crude oil falling, but natural gas rising."
+        "reason": "Crude oil falling, natural gas rising."
       },
       "swing": {
-        "score": 1,
-        "signal": "SLIGHT_BULLISH",
-        "confidence": 5,
-        "reason": "Crude oil falling, but natural gas rising; EIA data pending."
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 6,
+        "reason": "Crude oil weakness, natural gas strength, no inventory data."
       },
       "symbols": [
         "CL",
@@ -88,13 +88,13 @@
         "score": -4,
         "signal": "STRONG_BEARISH",
         "confidence": 8,
-        "reason": "Gold and silver both significantly falling."
+        "reason": "Gold and Silver experiencing significant declines."
       },
       "swing": {
-        "score": -3,
-        "signal": "BEARISH",
-        "confidence": 7,
-        "reason": "Significant daily drops in gold and silver, strong bearish signal."
+        "score": -4,
+        "signal": "STRONG_BEARISH",
+        "confidence": 8,
+        "reason": "Sharp declines in both gold and silver, strong USD."
       },
       "symbols": [
         "GC",
@@ -107,14 +107,14 @@
       "intraday": {
         "score": 0,
         "signal": "NEUTRAL",
-        "confidence": 3,
-        "reason": "No direct data for agriculture, neutral stance."
+        "confidence": 5,
+        "reason": "No direct data for agriculture, neutral based on overall market."
       },
       "swing": {
         "score": 0,
         "signal": "NEUTRAL",
-        "confidence": 3,
-        "reason": "No direct data for agriculture, neutral stance."
+        "confidence": 5,
+        "reason": "No direct data for agriculture, neutral based on overall market."
       },
       "symbols": [
         "ZC",
@@ -129,16 +129,16 @@
     },
     "FX": {
       "intraday": {
-        "score": 1,
-        "signal": "SLIGHT_BULLISH",
-        "confidence": 6,
-        "reason": "DXY falling, indicating USD weakness; EUR/USD, GBP/USD rising."
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 7,
+        "reason": "DXY rising, indicating USD strength against major pairs."
       },
       "swing": {
-        "score": 1,
-        "signal": "SLIGHT_BULLISH",
-        "confidence": 6,
-        "reason": "DXY falling, suggesting continued USD weakness."
+        "score": -2,
+        "signal": "BEARISH",
+        "confidence": 7,
+        "reason": "Strong DXY, USD strength, high-impact central bank events."
       },
       "symbols": [
         "6E",
@@ -152,14 +152,14 @@
       "intraday": {
         "score": -1,
         "signal": "SLIGHT_BEARISH",
-        "confidence": 5,
-        "reason": "Bitcoin falling slightly, Fear & Greed in Extreme Fear."
+        "confidence": 6,
+        "reason": "Bitcoin falling, extreme fear in sentiment."
       },
       "swing": {
-        "score": -2,
-        "signal": "BEARISH",
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
         "confidence": 6,
-        "reason": "Extreme Fear sentiment and slight BTC dip suggest caution."
+        "reason": "Bitcoin slightly down, extreme fear, no ETF flow data."
       },
       "symbols": [
         "BTC",
@@ -169,16 +169,16 @@
     },
     "VOLATILITY": {
       "intraday": {
-        "score": 2,
+        "score": 3,
         "signal": "BULLISH",
-        "confidence": 7,
-        "reason": "VIX falling, but term structure in backwardation (bullish VX)."
+        "confidence": 8,
+        "reason": "VIX in backwardation, indicating market stress."
       },
       "swing": {
         "score": 3,
         "signal": "BULLISH",
         "confidence": 8,
-        "reason": "VIX backwardation indicates market stress, bullish for VX."
+        "reason": "VIX backwardation, falling equity indices, high-impact events."
       },
       "symbols": [
         "VX",
@@ -229,27 +229,27 @@
   "calendar": {
     "high_impact_today": true,
     "high_impact_events": [
-      "SNB Policy Rate",
-      "SNB Monetary Policy Assessment",
-      "Unemployment Claims",
       "Official Bank Rate",
       "Monetary Policy Statement",
-      "BOJ Press Conference",
-      "ECB Press Conference",
       "Main Refinancing Rate",
-      "Monetary Policy Summary",
       "MPC Official Bank Rate Votes",
+      "Unemployment Claims",
+      "ECB Press Conference",
+      "BOJ Press Conference",
+      "Monetary Policy Summary",
+      "SNB Policy Rate",
+      "Claimant Count Change",
       "SNB Press Conference",
-      "Claimant Count Change"
+      "SNB Monetary Policy Assessment"
     ],
     "fomc_days_away": 48,
     "nfp_days_away": 15,
     "in_blackout": false
   },
   "key_drivers": [
-    "Falling equity indices",
-    "Rising 10Y Treasury yield",
-    "Significant drop in precious metals"
+    "Equity market weakness across major indices",
+    "Strong USD and falling precious metals",
+    "VIX backwardation indicating market stress"
   ],
   "data_quality": {
     "stale_sources": [],
