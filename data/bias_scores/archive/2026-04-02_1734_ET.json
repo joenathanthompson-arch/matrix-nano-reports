@@ -1,6 +1,6 @@
 {
-  "generated": "2026-04-02T17:35:06.830150-04:00",
-  "run_time": "17:35 ET",
+  "generated": "2026-04-02T17:34:35.956766-04:00",
+  "run_time": "17:34 ET",
   "run_type": "EOD",
   "version": "1.1",
   "overall": {
@@ -8,28 +8,28 @@
       "score": 1,
       "signal": "SLIGHT_BULLISH",
       "confidence": 7,
-      "reason": "Mixed equity performance, falling VIX, rising oil, falling gold."
+      "reason": "Mixed equity, strong oil, falling VIX, but rising DXY."
     },
     "swing": {
       "score": 1,
       "signal": "SLIGHT_BULLISH",
       "confidence": 7,
-      "reason": "Equity strength, falling VIX, rising oil, backwardation in VIX term structure."
+      "reason": "Mixed equity, strong oil, falling VIX, but rising DXY."
     }
   },
   "asset_classes": {
     "EQUITY_INDEX": {
       "intraday": {
-        "score": 2,
-        "signal": "BULLISH",
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
         "confidence": 7,
-        "reason": "Most indices rising, VIX falling, but DJI slightly down."
+        "reason": "Most indices rising, VIX falling, but DJI down slightly."
       },
       "swing": {
-        "score": 2,
-        "signal": "BULLISH",
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
         "confidence": 7,
-        "reason": "Broad equity strength, falling VIX, positive yield curve spread."
+        "reason": "Most indices rising, VIX falling, but DJI down slightly."
       },
       "symbols": [
         "ES",
@@ -45,13 +45,13 @@
         "score": 1,
         "signal": "SLIGHT_BULLISH",
         "confidence": 7,
-        "reason": "10Y yield falling, indicating slight bond strength."
+        "reason": "10Y yield falling, indicating bond price increase."
       },
       "swing": {
         "score": 1,
         "signal": "SLIGHT_BULLISH",
         "confidence": 7,
-        "reason": "10Y yield falling, normal yield curve, but DXY rising."
+        "reason": "10Y yield falling, indicating bond price increase."
       },
       "symbols": [
         "ZB",
@@ -67,13 +67,13 @@
         "score": 5,
         "signal": "STRONG_BULLISH",
         "confidence": 7,
-        "reason": "Crude oil sharply up (+11.93%), strong bullish signal."
+        "reason": "Crude oil surging, bullish inventory signal."
       },
       "swing": {
         "score": 5,
         "signal": "STRONG_BULLISH",
         "confidence": 7,
-        "reason": "Significant crude oil surge, indicating strong demand/supply concerns."
+        "reason": "Crude oil surging, bullish inventory signal."
       },
       "symbols": [
         "CL",
@@ -85,16 +85,16 @@
     },
     "METALS": {
       "intraday": {
-        "score": -3,
+        "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "Gold and silver significantly down despite rising oil."
+        "reason": "Gold and Silver falling significantly."
       },
       "swing": {
-        "score": -3,
+        "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "Gold and silver falling, potentially due to rising dollar and risk-on sentiment."
+        "reason": "Gold and Silver falling significantly."
       },
       "symbols": [
         "GC",
@@ -108,13 +108,13 @@
         "score": 0,
         "signal": "NEUTRAL",
         "confidence": 7,
-        "reason": "No direct data, assuming neutral based on broader market."
+        "reason": "No direct data, assuming neutral."
       },
       "swing": {
         "score": 0,
         "signal": "NEUTRAL",
         "confidence": 7,
-        "reason": "No direct data, assuming neutral based on broader market."
+        "reason": "No direct data, assuming neutral."
       },
       "symbols": [
         "ZC",
@@ -132,13 +132,13 @@
         "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "DXY rising, major pairs falling against USD."
+        "reason": "DXY rising, most major pairs falling against USD."
       },
       "swing": {
         "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "Strong USD trend, DXY rising, non-USD currencies weakening."
+        "reason": "DXY rising, most major pairs falling against USD."
       },
       "symbols": [
         "6E",
@@ -153,13 +153,13 @@
         "score": -3,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "Bitcoin down, Extreme Fear in sentiment index."
+        "reason": "BTC falling, extreme fear sentiment, ETF outflows."
       },
       "swing": {
         "score": -3,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "Bitcoin falling, extreme fear, indicating continued downside pressure."
+        "reason": "BTC falling, extreme fear sentiment, ETF outflows."
       },
       "symbols": [
         "BTC",
@@ -172,13 +172,13 @@
         "score": -2,
         "signal": "BEARISH",
         "confidence": 7,
-        "reason": "VIX falling, but term structure in backwardation (stress)."
+        "reason": "VIX falling, indicating lower volatility."
       },
       "swing": {
-        "score": 3,
-        "signal": "BULLISH",
+        "score": -2,
+        "signal": "BEARISH",
         "confidence": 7,
-        "reason": "VIX falling, but backwardation suggests underlying market stress."
+        "reason": "VIX falling, indicating lower volatility."
       },
       "symbols": [
         "VX",
@@ -193,9 +193,9 @@
       "change_1d_pct": -2.73
     },
     "dxy": {
-      "value": 100.008,
+      "value": 100.003,
       "trend": "rising",
-      "change_5d": 1.058
+      "change_5d": 1.053
     },
     "us10y": {
       "value": 4.313,
@@ -236,9 +236,9 @@
     "in_blackout": false
   },
   "key_drivers": [
-    "Crude oil surge (+11.93%)",
-    "VIX backwardation despite falling VIX",
-    "Strong USD and falling precious metals"
+    "Crude oil surge",
+    "Falling VIX and equity strength",
+    "Rising DXY and falling metals/crypto"
   ],
   "data_quality": {
     "stale_sources": [],
