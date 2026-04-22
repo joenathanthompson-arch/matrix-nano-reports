@@ -1,0 +1,249 @@
+{
+  "generated": "2026-04-22T17:34:18.448820-04:00",
+  "run_time": "17:34 ET",
+  "run_type": "EOD",
+  "version": "1.1",
+  "overall": {
+    "intraday": {
+      "score": 3,
+      "signal": "BULLISH",
+      "confidence": 8,
+      "reason": "Broad market strength, VIX falling, risk-on sentiment."
+    },
+    "swing": {
+      "score": 2,
+      "signal": "BULLISH",
+      "confidence": 8,
+      "reason": "Positive momentum, but CPI today reduces confidence slightly."
+    }
+  },
+  "asset_classes": {
+    "EQUITY_INDEX": {
+      "intraday": {
+        "score": 4,
+        "signal": "STRONG_BULLISH",
+        "confidence": 8,
+        "reason": "All major indices rising significantly, especially tech."
+      },
+      "swing": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "Strong daily gains, but CPI impact needs to be assessed."
+      },
+      "symbols": [
+        "ES",
+        "NQ",
+        "YM",
+        "RTY",
+        "MES",
+        "MNQ"
+      ]
+    },
+    "FIXED_INCOME": {
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 8,
+        "reason": "10Y yield rising slightly, indicating some selling pressure."
+      },
+      "swing": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 8,
+        "reason": "Yields rising, but overall move is contained."
+      },
+      "symbols": [
+        "ZB",
+        "ZN",
+        "ZT",
+        "ZF",
+        "GE",
+        "SR3"
+      ]
+    },
+    "ENERGY": {
+      "intraday": {
+        "score": 1,
+        "signal": "SLIGHT_BULLISH",
+        "confidence": 8,
+        "reason": "Crude oil and natural gas rising, but crude's trend is falling."
+      },
+      "swing": {
+        "score": 0,
+        "signal": "NEUTRAL",
+        "confidence": 8,
+        "reason": "Mixed signals: crude falling trend vs. daily rise."
+      },
+      "symbols": [
+        "CL",
+        "NG",
+        "RB",
+        "HO",
+        "MCL"
+      ]
+    },
+    "METALS": {
+      "intraday": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "Gold and silver showing strong daily gains."
+      },
+      "swing": {
+        "score": 2,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "Strong daily performance, potential for continued upside."
+      },
+      "symbols": [
+        "GC",
+        "SI",
+        "HG",
+        "MGC"
+      ]
+    },
+    "AGRICULTURE": {
+      "intraday": {
+        "score": 0,
+        "signal": "NEUTRAL",
+        "confidence": 8,
+        "reason": "No direct data, assuming neutral based on overall market."
+      },
+      "swing": {
+        "score": 0,
+        "signal": "NEUTRAL",
+        "confidence": 8,
+        "reason": "No direct data, assuming neutral based on overall market."
+      },
+      "symbols": [
+        "ZC",
+        "ZS",
+        "ZW",
+        "KC",
+        "SB",
+        "CC",
+        "LE",
+        "HE"
+      ]
+    },
+    "FX": {
+      "intraday": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 8,
+        "reason": "DXY rising, indicating USD strength against major pairs."
+      },
+      "swing": {
+        "score": -1,
+        "signal": "SLIGHT_BEARISH",
+        "confidence": 8,
+        "reason": "USD strength persists, but not aggressively."
+      },
+      "symbols": [
+        "6E",
+        "6A",
+        "6J",
+        "6B",
+        "M6E"
+      ]
+    },
+    "CRYPTO": {
+      "intraday": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "Bitcoin showing strong daily gains despite 'Fear' sentiment."
+      },
+      "swing": {
+        "score": 2,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "Strong daily move, but sentiment is still fearful."
+      },
+      "symbols": [
+        "BTC",
+        "ETH",
+        "MBT"
+      ]
+    },
+    "VOLATILITY": {
+      "intraday": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "VIX falling significantly, indicating low fear and sell premium."
+      },
+      "swing": {
+        "score": 3,
+        "signal": "BULLISH",
+        "confidence": 8,
+        "reason": "VIX contango and falling trend support short vol strategies."
+      },
+      "symbols": [
+        "VX",
+        "VXM"
+      ]
+    }
+  },
+  "market_data": {
+    "vix": {
+      "value": 18.92,
+      "trend": "falling",
+      "change_1d_pct": -2.97
+    },
+    "dxy": {
+      "value": 98.614,
+      "trend": "rising",
+      "change_5d": 0.244
+    },
+    "us10y": {
+      "value": 4.294,
+      "trend": "rising"
+    },
+    "real_yield_10y": {
+      "value": 1.92,
+      "trend": "stable"
+    },
+    "hy_spread": {
+      "value": 2.85,
+      "trend": "stable"
+    },
+    "fed_funds_current": 3.64,
+    "breakeven_inflation_10y": 2.38,
+    "yield_curve_2s10s": 0.51,
+    "vix_term_structure": "contango",
+    "vix_contango_pct": 2.7,
+    "gdpnow_estimate_pct": null,
+    "eia_crude_change_mb": null,
+    "eia_signal": "build",
+    "crypto_fear_greed": 32,
+    "crypto_fear_greed_label": "Fear",
+    "btc_etf_flow_usd_m": null,
+    "gold": 4758.2998,
+    "crude_oil": 92.87,
+    "btc": 78688.0,
+    "sp500": 7137.8999,
+    "nasdaq": 26937.2754
+  },
+  "calendar": {
+    "high_impact_today": true,
+    "high_impact_events": [
+      "CPI y/y"
+    ],
+    "fomc_days_away": 14,
+    "nfp_days_away": 9,
+    "in_blackout": false
+  },
+  "key_drivers": [
+    "Strong equity performance, especially tech",
+    "Falling VIX and contango term structure",
+    "Rising USD and commodity prices"
+  ],
+  "data_quality": {
+    "stale_sources": [],
+    "fallbacks_used": [],
+    "validation_corrections": [],
+    "notes": "Generated by Matrix Nano Bias Script v1.2 | Run: EOD"
+  }
+}
